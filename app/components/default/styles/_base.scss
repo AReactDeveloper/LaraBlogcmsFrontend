@@ -1,0 +1,29 @@
+
+
+body {
+    font-size: 1rem;
+    background-color: #fff;
+    color: var(--text);
+    line-height: 1.6;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+  }
+  
+  a {
+    color: var(--text);
+    transition: color 0.2s ease;
+  
+    &:hover,
+    &:focus {
+      color: var(--text);
+      outline: none;
+    }
+  }
+  

@@ -1,0 +1,9 @@
+.container {
+    width: 100%;
+    max-width: 1200px; /* max width to constrain content */
+    margin-left: auto;  /* center horizontally */
+    margin-right: auto; /* center horizontally */
+    padding-left: 1rem;  /* horizontal padding for small screens */
+    padding-right: 1rem; /* horizontal padding for small screens */
+    box-sizing: border-box; /* include padding in width */
+  }
