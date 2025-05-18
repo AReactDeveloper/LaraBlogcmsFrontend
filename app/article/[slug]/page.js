@@ -9,6 +9,8 @@ import Link from 'next/link'
 import { getArticleBySlug } from "@/app/lib/apiHelper";
 import Image from "next/image";
 
+export const revalidate = 60;
+
 export default async function SinglePost({params}) {
 
   const {slug} = await params;
@@ -17,18 +19,8 @@ export default async function SinglePost({params}) {
 
   const newDate = new Date(data.created_at)
   const formatedDate = newDate.toLocaleDateString('en-GB')
-  let updateTime = '';
-  function timeAgo(dateStr) {
-    const diff = (Date.now() - new Date(dateStr)) / 1000;
-    const [val, unit] = 
-      diff < 60    ? [Math.floor(diff), 'sec'] :
-      diff < 3600  ? [Math.floor(diff / 60), 'min'] :
-      diff < 86400 ? [Math.floor(diff / 3600), 'hr'] :
-                     [Math.floor(diff / 86400), 'day'];
-    return `${val} ${unit}${val !== 1 ? 's' : ''} ago`;
-  }
+  let updateTime = '9h ago';
   
-  updateTime = timeAgo(data.updated_at)
 
   return (
     <div className={styles.singlePost}>
