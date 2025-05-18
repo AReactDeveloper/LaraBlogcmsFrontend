@@ -1,0 +1,73 @@
+.Sidebar {
+    background-color: var(--bg);
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;  // slightly tighter gap for neatness
+    padding: 0 1rem;  // add some padding for breathing room
+  }
+  
+  .Widget {
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); // softer shadow for subtle depth
+    padding: 1rem 1.25rem;
+    border-radius: 6px;  // gentle rounding for a smooth modern feel
+    transition: box-shadow 0.3s ease;
+  
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // subtle hover lift effect
+    }
+  
+    &Title {
+      font-weight: 700;  
+      font-size: 1.15rem;
+      margin-block: 1rem 0.6rem;
+      color: #111;  
+      letter-spacing: 0.02em;
+    }
+  
+    &List {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+  
+      & a {
+        color: #444;
+        text-decoration: none;
+        transition: color 0.2s ease;
+  
+        &:hover,
+        &:focus {
+          color: #000;
+          outline: none;
+          text-decoration: underline;
+        }
+      }
+    }
+  
+    &Cloud {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+  
+      & a {
+        background-color: #222;  
+        color: #fff;
+        padding: 0.3rem 0.7rem;
+        border-radius: 4px;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        text-decoration: none;
+  
+        &:hover,
+        &:focus {
+          background-color: #fff;
+          color: #222;
+          border-color: #222;
+          outline: none;
+        }
+      }
+    }
+  }
+  

@@ -27,7 +27,7 @@ export default function NavBar({siteName}) {
             </div>
             <div className={styles.navList}>
               <Link href={'/'}>Home</Link>
-              <Link href={'/'}>Blog</Link>
+              <Link href={'/blog'}>Blog</Link>
               <Link href={'/'}>About</Link>
               <Link href={'/'}>Pages</Link>
               <Link href={'/'}>Documentation</Link>

@@ -6,4 +6,9 @@
     padding-left: 1rem;  /* horizontal padding for small screens */
     padding-right: 1rem; /* horizontal padding for small screens */
     box-sizing: border-box; /* include padding in width */
+
+    @media (max-width: 768px) {
+      padding-left: 2rem;  /* horizontal padding for small screens */
+      padding-right: 2rem; /* horizontal padding for small screens */
+    }
   }

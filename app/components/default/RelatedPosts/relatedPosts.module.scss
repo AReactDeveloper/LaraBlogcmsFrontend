@@ -1,0 +1,24 @@
+.relatedPosts {
+    background-color: #f9f9f9; // softer bg
+    border-radius: 0.5rem;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-top: 1.5rem;
+  }
+  .relatedPosts > div {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    gap: 1rem;
+    background: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+  }
+  
+  .relatedPosts > div:hover {
+    transform: translateY(-4px);
+  }
