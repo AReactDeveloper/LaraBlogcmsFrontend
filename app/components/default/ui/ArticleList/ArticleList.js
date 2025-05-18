@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ArticleCardList from '../ArticleCardList/ArticleCardList';
 import styles from './ArticleList.module.scss';
 import Skeleton from 'react-loading-skeleton';
@@ -10,6 +10,7 @@ import { CiBoxList } from "react-icons/ci";
 export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDescription,loading}) {
 
   const [isGrid,setIsGrid] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1);
 
   if(!pageTitle){
     pageTitle = ''
@@ -46,7 +47,6 @@ export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDes
   const totalArticles = Articles.length ;
   const totalPages = Math.ceil(totalArticles / articlesPerPage);
 
-  const [currentPage, setCurrentPage] = useState(1);
 
   const startIndex = (currentPage - 1) * articlesPerPage;
   const endIndex = startIndex + articlesPerPage;

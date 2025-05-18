@@ -25,7 +25,7 @@ export default async function RelatedPosts({category}) {
     <h2>Related Articles :</h2>
     <div className={styles.relatedPosts}>
         {data.articles.slice(0,3).map((article,index)=>{
-            return (<Link href={'/article/'+article.slug}><div key={article.id}>
+            return (<Link key={article.id} href={'/article/'+article.slug}><div key={article.id}>
                 <Image 
                     src={article.imgUrl}
                     width={150}
