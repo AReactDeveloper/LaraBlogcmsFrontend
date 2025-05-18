@@ -8,17 +8,12 @@ import styles from './singlePost.module.scss'
 import Link from 'next/link'
 import { getArticleBySlug } from "@/app/lib/apiHelper";
 import Image from "next/image";
-import RelatedPosts from "@/app/components/default/RelatedPosts/RelatedPosts";
 
 export default async function SinglePost({params}) {
 
   const {slug} = await params;
 
-  const {data,error,loading} = await getArticleBySlug(slug)
-
-  if(loading){
-    return 'loading...'
-  }
+  const data = await getArticleBySlug(slug)
 
   const newDate = new Date(data.created_at)
   const formatedDate = newDate.toLocaleDateString('en-GB')
@@ -71,14 +66,15 @@ export default async function SinglePost({params}) {
               width={400}
               height={400}
               alt={data.title}
+              priority
+              placeholder="blur" 
+              blurDataURL="..."
             />
         </div>
         <div className={styles.postContent}>
           {data.content}
         </div>
-        <div className='postFooter'>
-            <RelatedPosts category={data.category.title} />
-        </div>
+        
         <div className='postComment'>
           post comments
         </div>

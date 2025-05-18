@@ -16,16 +16,8 @@ export const getArticles = async () => {
 
 // Get a single article by slug
 export const getArticleBySlug = async (slug) => {
-    const resObj = { data: null, error: null, loading: true };
-    try {
-        const response = await axiosInstance.get('/api/articles/' + slug);
-        resObj.data = response.data;
-    } catch (error) {
-        resObj.error = error;
-    } finally {
-        resObj.loading = false;
-    }
-    return resObj;
+    const response = await axiosInstance.get('/api/articles/' + slug);
+    return response.data;
 };
 
 // Get a list of all categories
