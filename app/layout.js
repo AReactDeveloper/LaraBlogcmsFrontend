@@ -1,5 +1,6 @@
 import React from 'react';
 import { getSiteInfo } from "@/app/lib/apiHelper";
+import { Analytics } from "@vercel/analytics/next"
 
 export const metadata = async () => {
   const { data: SiteInfoData, error: SiteInfoError } = await getSiteInfo();
@@ -24,6 +25,7 @@ export default async function RootLayout({ children }) {
       <body>
         <Layout>
           {children}
+          <Analytics />
         </Layout>
       </body>
     </html>
