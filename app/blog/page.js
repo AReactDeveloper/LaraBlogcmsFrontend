@@ -2,40 +2,50 @@ import { getArticles, getSiteInfo } from "@/app/lib/apiHelper";
 import ArticleList from "../components/default/ui/ArticleList/ArticleList";
 import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: 'Blog | Your Site Name',
-  description: 'Explore our latest articles and updates on various topics.',
-  openGraph: {
-    title: 'Blog | Your Site Name',
-    description: 'Explore our latest articles and updates on various topics.',
-    type: 'website',
-  },
-};
+let siteInfoCache;
+
+async function getSiteInfoCached() {
+  if (!siteInfoCache) {
+    const { data, error } = await getSiteInfo();
+    if (error) {
+      siteInfoCache = { siteName: 'Your Site Name', siteDescription: 'Your site description' };
+    } else {
+      siteInfoCache = { siteName: data.siteName, siteDescription: data.siteDescription, articlesPerPage: data.articlesPerPage };
+    }
+  }
+  return siteInfoCache;
+}
+
+export async function generateMetadata() {
+  const siteInfo = await getSiteInfoCached();
+
+  return {
+    title: `Blog | ${siteInfo.siteName}`,
+    description: siteInfo.siteDescription,
+    openGraph: {
+      title: `Blog | ${siteInfo.siteName}`,
+      description: siteInfo.siteDescription,
+      type: 'website',
+    },
+  };
+}
 
 export default async function Blog() {
-  let Articles = []
-  let ArticlePerPage = 8; //fallback in case siteinfo didnt load
-  const {data : ArticleData ,error : ArticleError ,loading : ArticleLoading} = await getArticles()
-  const {data  : SiteInfoData , error : siteInfoError , loading : siteInfoLoading} = await getSiteInfo()
+  const { data: articles, error: articleError, loading: articleLoading } = await getArticles();
 
-  if(SiteInfoData){
-    ArticlePerPage = SiteInfoData?.data?.sitePostsPerPage
+  if (articleError) {
+    return notFound();
   }
 
-  if(ArticleData){
-    Articles = ArticleData || []
-  }
-
-  if(ArticleError){
-    return notFound()
-  }
+  const siteInfo = await getSiteInfoCached();
+  const articlePerPage = siteInfo?.articlesPerPage || 8;
 
   return (
     <main>
-      <ArticleList 
-        ArticleLoading={ArticleLoading}
-        ArticlePerPage={ArticlePerPage} 
-        Articles={Articles} 
+      <ArticleList
+        ArticleLoading={articleLoading}
+        ArticlePerPage={articlePerPage}
+        Articles={articles || []}
         pageTitle={'Blog List : '}
         pageDescription={'Explore our latest articles here you can read them all '}
       />

@@ -1,31 +1,44 @@
 import React from 'react';
-import { getSiteInfo } from "@/app/lib/apiHelper";
-import { Analytics } from "@vercel/analytics/next"
+//import { Analytics } from "@vercel/analytics/next"
+import { getSiteInfo } from './lib/apiHelper';
 
-export const metadata = async () => {
-  const { data: SiteInfoData, error: SiteInfoError } = await getSiteInfo();
+//cache the site info to avoid reputative requests
+let siteInfoCache;
+let cacheTime = 0;
+const cacheDuration = 600000; 
+
+async function getSiteInfoCached() {
+  const currentTime = new Date().getTime();
+  if (!siteInfoCache || currentTime - cacheTime > cacheDuration) {
+    siteInfoCache = await getSiteInfo();
+    cacheTime = currentTime;
+  }
+  return siteInfoCache;
+}
+
+
+
+export async function generateMetadata() {
+  const { data } = await getSiteInfoCached();
 
   return {
-    title: SiteInfoData?.siteName
-      ? `${SiteInfoData.siteName} | ${SiteInfoData.siteDescription || ''}`
-      : 'Site Name',
-    description: SiteInfoData?.siteDescription || 'Default description',
+    title: data.siteName,
+    description: data.siteDescription,
   };
-};
+}
 
 export default async function RootLayout({ children }) {
-  const { data: SiteInfoData, error: SiteInfoError } = await getSiteInfo();
+  const { data } = await getSiteInfoCached();
 
-  const theme = SiteInfoData?.siteTheme || 'default';
+  const theme = data?.siteTheme || 'default';
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
 
   return (
     <html lang="en">
       <body>
-        <Layout>
+        <Layout siteInfo={data}>
           {children}
-          <Analytics />
         </Layout>
       </body>
     </html>

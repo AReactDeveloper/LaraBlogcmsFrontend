@@ -1,1 +1,9 @@
-comment section
+post a comment to article
+retriev in front end
+limit the cleint ability to comment one comment a min 10 comment an hour
+
+//revalidate after changes in admin panel
+import { revalidateTag } from 'next/cache';
+
+// After admin update
+revalidateTag('articles'); // Revalidate the 'articles' cache
