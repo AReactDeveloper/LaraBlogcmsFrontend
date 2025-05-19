@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import styles from './singlePost.module.scss'
 import CommentList from "@/app/components/default/ui/commentList/CommentList";
 
+
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const data = await getArticleBySlug(slug);
@@ -24,6 +26,7 @@ export async function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
+
 export default async function SinglePost({ params }) {
   const { slug } = await params;
   const data = await getArticleBySlug(slug);
@@ -40,13 +43,13 @@ export default async function SinglePost({ params }) {
             imgUrl={data.imgUrl}
             content={data.content}
           />
-        </Suspense>
         <Suspense fallback={'loading...'}>
-          <CommentList />
+        </Suspense>
+          <CommentList slug={data.slug} articleId={data.id} comments={data.comments || []} />
         </Suspense>
       </div>
     </>
   );
 }
 
-export const revalidate = 60; // Revalidate every 60 seconds
+export const revalidate = 100; // Revalidate every 60 seconds

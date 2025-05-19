@@ -1,38 +1,34 @@
-import React from 'react';
-//import { Analytics } from "@vercel/analytics/next"
-import { getSiteInfo } from './lib/apiHelper';
-
-//cache the site info to avoid reputative requests
-let siteInfoCache;
-let cacheTime = 0;
-const cacheDuration = 600000; 
-
-async function getSiteInfoCached() {
-  const currentTime = new Date().getTime();
-  if (!siteInfoCache || currentTime - cacheTime > cacheDuration) {
-    siteInfoCache = await getSiteInfo();
-    cacheTime = currentTime;
-  }
-  return siteInfoCache;
-}
-
-
+import { getSiteInfo } from "./lib/apiHelper";
 
 export async function generateMetadata() {
-  const { data } = await getSiteInfoCached();
-
+  const {data } = await getSiteInfo();
+  const result = data || {};
   return {
-    title: data.siteName,
-    description: data.siteDescription,
+    title: result.siteName || 'Default Site Title',
+    description: result.siteDescription || 'Default site description',
   };
 }
 
 export default async function RootLayout({ children }) {
-  const { data } = await getSiteInfoCached();
+  const {data , error , loading} = await getSiteInfo();
+  const result = data || {};
 
   const theme = data?.siteTheme || 'default';
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
+
+  if(error){
+    return(
+      <html lang="en">
+      <body style={{display:'flex',placeContent:'center',minHeight:'100vh'}}>
+          <div className="error-message" style={{height:'fit-content'}}>
+            <p>Failed to load resources from the server</p>
+          </div>
+      </body>
+    </html>
+     
+    )
+  }
 
   return (
     <html lang="en">

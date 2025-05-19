@@ -15,10 +15,12 @@ export default function SingleArticle({
   tags,
   imgUrl,
   content,
+  updated_at
 }) {
   const createdDate = new Date(created_at);
+  const updatedDate = new Date(updated_at);
   const formatedDate = createdDate.toLocaleDateString('en-GB');
-  const updateTime = '9h ago'; // Replace with dynamic value if needed
+  const updateTime = updatedDate.toLocaleDateString('en-GB');
 
   
   return (
