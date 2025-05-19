@@ -117,5 +117,5 @@ export const getSiteInfo = unstable_cache(
     return resObj;
   },
   ['siteInfo'],
-  { revalidate: 99999999 } // cache for 1 hour
+  { revalidate: 99999999 } // cache for eternity
 );
