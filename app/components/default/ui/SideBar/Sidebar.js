@@ -6,8 +6,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Sidebar({categories,tags}) {
 
-  console.log(tags)
-
   if (!categories || !tags) {
     return (
       <div className={styles.Sidebar}>

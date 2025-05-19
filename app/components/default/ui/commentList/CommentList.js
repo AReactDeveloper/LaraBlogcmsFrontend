@@ -29,9 +29,9 @@ export default function CommentList({ slug, articleId, comments }) {
     setError(null);
     try {
       const response = await axiosInstance.get(`/api/articles/${slug}`);
-      setFetchedComments(response.data.comments); 
+      setFetchedComments(response.data.comments); // Assuming response.data is an array
     } catch (err) {
-      console.error(err);
+      setFetchedComments([])
       setError('Failed to load comments.');
     } finally {
       setLoading(false);
