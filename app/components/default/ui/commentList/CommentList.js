@@ -14,33 +14,39 @@ export default function CommentList({ slug, articleId, comments }) {
   const [fetchedComments, setFetchedComments] = useState(comments || []);
   const [loading, setLoading] = useState(false);
 
-  const reFetchComments = async () => {
-    setLoading(true);
-    try {
-      const response = await axiosInstance.get('/api/articles/' + slug + '/comments');
-      setFetchedComments(response.data); // assuming API returns comment array directly
-    } catch (err) {
-      setError('');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-
-  //controllign how long a user can comment on the blog
   const COMMENT_THROTTLE_MS = 60 * 1000; // 1 minute
 
   const canPostComment = () => {
+    if (typeof window === 'undefined') return false; // safety check
     const lastPosted = localStorage.getItem(`lastCommentTimestamp-${articleId}`);
     if (!lastPosted) return true;
     const elapsed = Date.now() - parseInt(lastPosted, 10);
     return elapsed > COMMENT_THROTTLE_MS;
   };
 
+  const reFetchComments = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axiosInstance.get(`/api/articles/${slug}`);
+      setFetchedComments(response.data.comments); 
+    } catch (err) {
+      console.error(err);
+      setError('Failed to load comments.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // On mount, refresh comments in case the initial `comments` prop is stale
+    reFetchComments();
+  }, [slug]);
+
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     if (!canPostComment()) {
-      setError('for security reasons we are limiting how frequest you can comment please try again in 1 min.');
+      setError('For security reasons, you can only comment once per minute. Please try again later.');
       return;
     }
 
@@ -61,16 +67,14 @@ export default function CommentList({ slug, articleId, comments }) {
     try {
       const commentData = { article_id: articleId, author, body: comment };
       await postComment(slug, commentData);
-      //mark the user as just commented to throttle their activity
       localStorage.setItem(`lastCommentTimestamp-${articleId}`, Date.now().toString());
       setSuccess('Comment posted successfully!');
       setAuthor('');
       setComment('');
       setShowForm(false);
-      // Refresh comments after posting
-      const response = await axiosInstance.get('/api/articles/' + slug);
-      setFetchedComments(response.data.comments);
+      await reFetchComments();
     } catch (error) {
+      console.error(error);
       setError('Error posting comment. Please try again.');
     }
   };
@@ -87,6 +91,7 @@ export default function CommentList({ slug, articleId, comments }) {
               id="author"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
+              maxLength={50}
             />
           </div>
           <div>
@@ -103,7 +108,7 @@ export default function CommentList({ slug, articleId, comments }) {
           {success && <p style={{ color: 'green' }}>{success}</p>}
         </form>
       )}
-      <div className={styles.commentBox}>
+      <div className={styles.commentContainer}>
         <h3>Comments :</h3>
         {loading ? (
           <p>Loading comments...</p>
@@ -112,7 +117,7 @@ export default function CommentList({ slug, articleId, comments }) {
         ) : (
           fetchedComments.map((comment) => (
             <div key={comment.id} className={styles.commentBox}>
-              <h4>{comment.author ?? ''}</h4>
+              <h4>{comment.author || 'Anonymous'}</h4>
               <p>{comment.body}</p>
             </div>
           ))

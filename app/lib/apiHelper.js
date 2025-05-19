@@ -38,25 +38,6 @@ export const getArticleBySlug = unstable_cache(
 );
 
 
-// List all comments in an article
-export const getArticleComments = unstable_cache(
-  async (slug) => {
-    const resObj = { data: null, error: null, loading: true };
-    try {
-      const response = await axiosInstance.get('/api/articles/' + slug);
-      resObj.data = response.data;
-    } catch (error) {
-      resObj.error = error;
-    } finally {
-      resObj.loading = false;
-    }
-    return resObj.data.comments;
-  },
-  (slug) => [`article-${slug}`], // updated tag format
-  { revalidate: 3600 } // cache for 1 hour
-);
-
-
 
 // Get a list of all categories
 export const getCategories = unstable_cache(
