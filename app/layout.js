@@ -1,4 +1,4 @@
-import { getSiteInfo } from "./lib/apiHelper";
+import { getArticles, getSiteInfo } from "./lib/apiHelper";
 
 export async function generateMetadata() {
   const {data } = await getSiteInfo();
@@ -30,8 +30,9 @@ export default async function RootLayout({ children }) {
     )
   }
 
+
   return (
-    <html lang="en">
+    <html lang="en" >
       <body>
         <Layout siteInfo={data}>
           {children}

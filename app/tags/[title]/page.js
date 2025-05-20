@@ -1,29 +1,45 @@
 import ArticleList from "@/app/components/default/ui/ArticleList/ArticleList";
 import { getTagByTitle } from "@/app/lib/apiHelper";
-import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: 'Blog | Your Site Name',
-  description: 'Explore our latest articles and updates on various topics.',
-  openGraph: {
-    title: 'Blog | Your Site Name',
-    description: 'Explore our latest articles and updates on various topics.',
-    type: 'website',
-  },
-};
 
-export default async function SingleCategory({ params }) {
+export async function generateMetadata({ params }) {
+  try {
+    const { title } = await params;
+    const { data, error } = await getTagByTitle(title);
+
+    if (error || !data) {
+      return {
+        title: `${title} | Tag not found`,
+        description: `No description available for tag "${title}".`,
+      };
+    }
+
+    return {
+      title: `${data.title || title} | Articles in tag ${data.title || title}`,
+      description: data.description || `Articles tagged with "${title}".`,
+      openGraph: {
+        title: data.title,
+        description: data.description,
+      },
+    };
+  } catch (e) {
+    return {
+      title: `Error | Tag metadata`,
+      description: "An error occurred while generating metadata.",
+    };
+  }
+}
+
+export default async function singleTag({ params }) {
   const ArticlePerPage = 8;
   const { title } = await params;
 
-  const { data, error , loading } = await getTagByTitle(title);
+  const { data, error  } = await getTagByTitle(title);
 
-  if(data){
-    console.log(data.articles)
-  }
-
-  if(error) {
-    return 'errro'
+  if(error || !data) {
+    return (
+      <div className='error-message'>Tag not found</div>
+    )
   }
 
 
@@ -33,7 +49,7 @@ export default async function SingleCategory({ params }) {
       Articles={data.articles}
       ArticlePerPage={ArticlePerPage}
       pageTitle={'Articles In ' + title}
-      pageDescription={'here you can find all intressting articles in tag '+ title }
+      pageDescription={data.description}
       />
     </main>
   );

@@ -11,7 +11,7 @@ export default async function Blog() {
   const articlePerPage = siteInfo?.articlesPerPage || 8;
 
   return (
-    <main>
+    <main className="blog-wrapper">
       <ArticleList
         ArticleLoading={articleLoading}
         ArticlePerPage={articlePerPage}

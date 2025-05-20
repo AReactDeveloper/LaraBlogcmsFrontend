@@ -1,0 +1,50 @@
+.popupOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+
+    
+  }
+  
+  .popupContent {
+    background: var(--bg);
+    padding: 2.5rem 1.5rem;
+    border-radius: 12px;
+    position: relative;
+    max-width: 600px;
+    width: 90%;
+
+    @media (max-width:450px) {
+      width: 100%;
+      height: 100%;
+      border-radius: 0;
+      height: 100%;
+      padding: 2.5rem 1.5rem;
+    }
+
+    &  h1{
+      color: var(--text);
+      margin-block-end: 1.5rem;
+    }
+  }
+  
+  .popupClose {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    
+  }
+
+

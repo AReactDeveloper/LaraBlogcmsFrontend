@@ -1,0 +1,9 @@
+.searchResult{
+    
+    & li{
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        border-bottom: #e4e4e4;
+    }
+}

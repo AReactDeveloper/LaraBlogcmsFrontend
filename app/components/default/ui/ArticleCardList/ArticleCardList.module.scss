@@ -4,17 +4,28 @@
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 
+  @media (max-width:500px) {
+    flex-direction: column;
+  }
+
   &Img {
     width: 200px;
     height: 200px;
     flex-shrink: 0; 
+    @media (max-width:500px) {
+      width: 100%;
+    }
+    
 
     img {
       object-fit: cover;
       border-bottom: 1px solid #eee;
       width: 100% !important;
       height: 100% !important;
+
+      
     }
+
   }
 }
 

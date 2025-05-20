@@ -1,25 +1,45 @@
 import ArticleList from "@/app/components/default/ui/ArticleList/ArticleList";
 import { getCategoryByTitle } from "@/app/lib/apiHelper";
-import { notFound } from "next/navigation";
 
-export const metadata = {
-  title: 'Blog | Your Site Name',
-  description: 'Explore our latest articles and updates on various topics.',
-  openGraph: {
-    title: 'Blog | Your Site Name',
-    description: 'Explore our latest articles and updates on various topics.',
-    type: 'website',
-  },
-};
+
+export async function generateMetadata({ params }) {
+  try {
+    const { title } = await params;
+    const { data, error } = await getCategoryByTitle(title);
+
+    if (error || !data) {
+      return {
+        title: `${title} | Category not found`,
+        description: `No description available for Category "${title}".`,
+      };
+    }
+
+    return {
+      title: `${data.title || title} | Articles in Category ${data.title || title}`,
+      description: data.description || `Articles in Category : "${title}".`,
+      openGraph: {
+        title: data.title,
+        description: data.description,
+      },
+    };
+  } catch (e) {
+    return {
+      title: `Error | Category metadata`,
+      description: "An error occurred while generating metadata.",
+    };
+  }
+}
 
 export default async function SingleCategory({ params }) {
   const ArticlePerPage = 8;
   const { title } = await params;
 
-  const { data, error , loading } = await getCategoryByTitle(title);
+  const { data, error  } = await getCategoryByTitle(title);
 
-  if(error) {
-    return notFound()
+  if(error || !data) {
+    return (
+      <div className='error-message'>Category not found</div>
+    )
   }
 
 
@@ -29,7 +49,7 @@ export default async function SingleCategory({ params }) {
       Articles={data.articles}
       ArticlePerPage={ArticlePerPage}
       pageTitle={'Articles In ' + title}
-      pageDescription={'here you can find all intressting articles in category '+ title }
+      pageDescription={data.description}
       />
     </main>
   );

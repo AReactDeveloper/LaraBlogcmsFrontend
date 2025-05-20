@@ -1,8 +1,8 @@
 'use client';
 import { postComment } from '@/app/lib/apiPosterHelper';
 import React, { useEffect, useState } from 'react';
-import styles from './commentList.module.scss';
 import axiosInstance from '@/app/lib/axios';
+import CommentContainer from '../commentContainer/CommentContainer';
 
 export default function CommentList({ slug, articleId, comments }) {
   const [showForm, setShowForm] = useState(false);
@@ -13,11 +13,12 @@ export default function CommentList({ slug, articleId, comments }) {
   const [validationError, setValidationError] = useState(null);
   const [fetchedComments, setFetchedComments] = useState(comments || []);
   const [loading, setLoading] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(3); // Initial number of comments to show
 
   const COMMENT_THROTTLE_MS = 60 * 1000; // 1 minute
 
   const canPostComment = () => {
-    if (typeof window === 'undefined') return false; // safety check
+    if (typeof window === 'undefined') return false;
     const lastPosted = localStorage.getItem(`lastCommentTimestamp-${articleId}`);
     if (!lastPosted) return true;
     const elapsed = Date.now() - parseInt(lastPosted, 10);
@@ -29,9 +30,9 @@ export default function CommentList({ slug, articleId, comments }) {
     setError(null);
     try {
       const response = await axiosInstance.get(`/api/articles/${slug}`);
-      setFetchedComments(response.data.comments); // Assuming response.data is an array
+      setFetchedComments(response.data.comments || []);
     } catch (err) {
-      setFetchedComments([])
+      setFetchedComments([]);
       setError('Failed to load comments.');
     } finally {
       setLoading(false);
@@ -39,7 +40,6 @@ export default function CommentList({ slug, articleId, comments }) {
   };
 
   useEffect(() => {
-    // On mount, refresh comments in case the initial `comments` prop is stale
     reFetchComments();
   }, [slug]);
 
@@ -73,15 +73,26 @@ export default function CommentList({ slug, articleId, comments }) {
       setComment('');
       setShowForm(false);
       await reFetchComments();
+      setVisibleCount(5); // Reset visible count after new comment
     } catch (error) {
       console.error(error);
       setError('Error posting comment. Please try again.');
     }
   };
 
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => prev + 5);
+  };
+
+  const visibleComments = fetchedComments.slice(0, visibleCount);
+  const hasMoreComments = fetchedComments.length > visibleCount;
+
   return (
     <div>
-      <button onClick={() => setShowForm(!showForm)}>Add Comment</button>
+      <button onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Cancel' : 'Add Comment'}
+      </button>
+
       {showForm && (
         <form onSubmit={handleFormSubmit}>
           <div>
@@ -108,21 +119,14 @@ export default function CommentList({ slug, articleId, comments }) {
           {success && <p style={{ color: 'green' }}>{success}</p>}
         </form>
       )}
-      <div className={styles.commentContainer}>
-        <h3>Comments :</h3>
-        {loading ? (
-          <p>Loading comments...</p>
-        ) : fetchedComments.length === 0 ? (
-          <p>No comments, add one today!</p>
-        ) : (
-          fetchedComments.map((comment) => (
-            <div key={comment.id} className={styles.commentBox}>
-              <h4>{comment.author || 'Anonymous'}</h4>
-              <p>{comment.body}</p>
-            </div>
-          ))
-        )}
-      </div>
+
+      <CommentContainer loading={loading} fetchedComments={visibleComments} />
+
+      {hasMoreComments && (
+        <button onClick={handleLoadMore} style={{ marginTop: '1rem' }}>
+          Load More Comments
+        </button>
+      )}
     </div>
   );
 }

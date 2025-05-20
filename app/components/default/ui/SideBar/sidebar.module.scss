@@ -4,6 +4,11 @@
     flex-direction: column;
     gap: 1.25rem;  // slightly tighter gap for neatness
     padding: 0 1rem;  // add some padding for breathing room
+
+    @media (max-width:700px) {
+      display: none;
+    }
+
   }
   
   .Widget {

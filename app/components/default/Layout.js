@@ -3,7 +3,8 @@ import Sidebar from "./ui/SideBar/Sidebar"
 import './styles/main.scss'
 
 import { Open_Sans } from 'next/font/google';
-import { getCategories, getTags } from "@/app/lib/apiHelper";
+import { getArticles, getCategories, getTags } from "@/app/lib/apiHelper";
+import Search from "@/app/search/page";
 
 const openSans = Open_Sans({
   subsets: ['latin'],
@@ -14,10 +15,12 @@ export default async function Layout({ children , siteInfo }) {
   
   const {data : categories} = await getCategories()
   const {data : tags} = await getTags()
+  const {data: articles} = await getArticles();
+
 
   return (
     <span className={openSans.className}>
-      <Navbar siteName={siteInfo.siteName} />
+      <Navbar articles={articles} siteName={siteInfo.siteName} />
       <div className="container">
         <main className='main-area'>
           {children}

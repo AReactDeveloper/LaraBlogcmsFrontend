@@ -1,5 +1,12 @@
 :root {
+    --baseColor : #fff;
     --bg: #f8f8f8;
-    --text: #2f3542;
+    --text: #222;
     --shadow : 0 2px 6px rgba(0, 0, 0, 0.1): 
+}
+.dark {
+    --baseColor: #1a1a1a;
+    --bg: #121212;
+    --text: #eee;
+    --shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
 }
