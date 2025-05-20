@@ -85,7 +85,7 @@ export default function CommentList({ slug, articleId, comments }) {
   };
 
   const visibleComments = fetchedComments.slice(0, visibleCount);
-  const hasMoreComments = fetchedComments.length > visibleCount;
+  const hasMoreComments = fetchedComments.length < 0 || fetchedComments.length > visibleCount ;
 
   return (
     <div>

@@ -4,14 +4,17 @@ import styles from './sidebar.module.scss'
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 
-export default function Sidebar({categories,tags}) {
+export default function Sidebar({categories,tags,pages}) {
 
-  if (!categories || !tags) {
+  console.log(pages)
+
+  if (!categories || !tags || !pages) {
     return (
       <div className={styles.Sidebar}>
         <Skeleton height={200} style={{ marginBottom: '10px' }} />
         <Skeleton height={250} style={{ marginBottom: '10px' }} />
         <Skeleton height={120} style={{ marginBottom: '10px' }} />
+        <Skeleton height={250} style={{ marginBottom: '10px' }} />
       </div>
     );
   }
@@ -52,6 +55,20 @@ export default function Sidebar({categories,tags}) {
           </div>
         </div>
       </div>
+
+      <div className={styles.Widget}>
+        <div className={styles.WidgetTitle}>
+          <h3>Pages</h3>
+        </div>
+        <div className={styles.WidgetContent}>
+          <div className={styles.WidgetList}>
+              {pages.map(page=>{
+                return <Link href={'/'+page.slug} key={page.id} >{page.title}</Link>
+              })}
+          </div>
+        </div>
+      </div>
+
     </div>
   )
 }

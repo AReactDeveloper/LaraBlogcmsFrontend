@@ -1,4 +1,4 @@
-import { getArticles, getSiteInfo } from "./lib/apiHelper";
+import { getSiteInfo } from "./lib/apiHelper";
 
 export async function generateMetadata() {
   const {data } = await getSiteInfo();

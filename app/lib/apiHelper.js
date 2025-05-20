@@ -19,6 +19,42 @@ export const getArticles = unstable_cache(
   { revalidate: 3600 } // cache for 1 hour
 );
 
+// List all Pages
+export const getPages = unstable_cache(
+  async () => {
+    const resObj = { data: null, error: null, loading: true };
+    try {
+      const response = await axiosInstance.get('/api/pages/');
+      resObj.data = response.data;
+    } catch (error) {
+      resObj.error = error;
+    } finally {
+      resObj.loading = false;
+    }
+    return resObj;
+  },
+  ['articles'], // unchanged, already dash style
+  { revalidate: 3600 } // cache for 1 hour
+);
+
+// Get a single page by slug
+export const getPageBySlug = unstable_cache(
+  async (slug) => {
+    const resObj = { data: null, error: null, loading: true };
+    try {
+      const response = await axiosInstance.get('/api/pages/' + slug);
+      resObj.data = response.data;
+    } catch (error) {
+      resObj.error = error;
+    } finally {
+      resObj.loading = false;
+    }
+    return resObj.data;
+  },
+  (slug) => [`article-${slug}`], // updated tag format
+  { revalidate: 3600 } // cache for 1 hour
+);
+
 // Get a single article by slug
 export const getArticleBySlug = unstable_cache(
   async (slug) => {

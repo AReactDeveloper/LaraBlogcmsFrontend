@@ -1,6 +1,13 @@
+import SlideShow from '@/app/components/default/ui/slider/SlideShow'
+import { getArticles } from './lib/apiHelper';
 
-export default function Page() {
+export default async function Page() {
+
+  const {data} = await getArticles()
+
   return (
-    <h1>Homepage</h1>
+    <div>
+      <SlideShow articles={data.slice(0,5)}/>
+    </div>
   );
 }

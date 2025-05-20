@@ -69,7 +69,11 @@ export default function NavBar({siteName,articles}) {
         <Link href={'/'}>About</Link>
         <Link href={'/'}>Pages</Link>
         <Link href={'/'}>Documentation</Link>
+        <div className={styles.iconList}>
+            <Link href={'/'}><FaMoon /></Link>
+            <button  onClick={()=>setIsSearchOpen(true)}><FaSearch size={20} /></button>
         </div>
+      </div>
     <div>
 
     </div>
