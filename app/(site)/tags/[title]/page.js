@@ -1,4 +1,4 @@
-import ArticleList from "@/app/components/default/ui/ArticleList/ArticleList";
+import ArticleList from "../../components/default/ui/ArticleList/ArticleList";
 import { getTagByTitle } from "@/app/lib/apiHelper";
 
 

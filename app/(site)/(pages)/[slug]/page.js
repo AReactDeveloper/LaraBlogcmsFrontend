@@ -27,7 +27,8 @@ export async function generateStaticParams() {
 
 export default async function SinglePost({ params }) {
   const { slug } = await params;
-  const data = await getPageBySlug(slug);
+  const data = await getPageBySlug(slug) || [];
+
 
   return (
     <>
