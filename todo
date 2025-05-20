@@ -1,9 +1,156 @@
-post a comment to article
-retriev in front end
-limit the cleint ability to comment one comment a min 10 comment an hour
+Dashboard Route Structure & Details
+/dashboard
+Purpose: Admin overview page
+Features:
 
-//revalidate after changes in admin panel
-import { revalidateTag } from 'next/cache';
+Show statistics (e.g., number of articles, categories)
 
-// After admin update
-revalidateTag('articles'); // Revalidate the 'articles' cache
+Quick actions (e.g., create new article)
+
+Recent activity
+
+/dashboard/articles
+Purpose: Manage articles
+Subroutes:
+
+/dashboard/articles – List all articles (paginated, searchable)
+
+/dashboard/articles/create – Create new article
+
+/dashboard/articles/:slug – View single article details
+
+/dashboard/articles/:slug/edit – Edit an article
+
+Example Slug: how-to-learn-laravel
+
+API Used:
+
+GET /articles
+
+GET /articles/{id or slug}
+
+POST /articles
+
+PUT /articles/{id}
+
+DELETE /articles/{id}
+
+/dashboard/categories
+Purpose: Manage categories
+Subroutes:
+
+/dashboard/categories – List all categories
+
+/dashboard/categories/create
+
+/dashboard/categories/:slug/edit
+
+Example Slug: web-development
+
+API Used:
+
+GET /categories
+
+GET /categories/{id}
+
+POST /categories
+
+PUT /categories/{id}
+
+DELETE /categories/{id}
+
+/dashboard/tags
+Purpose: Manage tags (many-to-many with articles)
+Subroutes:
+
+/dashboard/tags – List tags
+
+/dashboard/tags/create
+
+/dashboard/tags/:slug/edit
+
+Example Slug: php, api-design
+
+API Used:
+
+GET /tags
+
+GET /tags/{id}
+
+POST /tags
+
+PUT /tags/{id}
+
+DELETE /tags/{id}
+
+/dashboard/pages
+Purpose: Manage standalone pages (e.g., About, Contact)
+Subroutes:
+
+/dashboard/pages
+
+/dashboard/pages/create
+
+/dashboard/pages/:slug/edit
+
+Example Slug: about-us
+
+API Used:
+
+GET /pages
+
+GET /pages/{id}
+
+POST /pages
+
+PUT /pages/{id}
+
+DELETE /pages/{id}
+
+/dashboard/comments
+Purpose: Moderate comments
+Subroutes:
+
+/dashboard/comments – List all comments (optionally filter by article)
+
+/dashboard/comments/:id/edit – Edit comment (if needed)
+
+API Used:
+
+GET /comment
+
+PUT /comment/{id}
+
+DELETE /comment/{id}
+
+/dashboard/settings
+Purpose: Manage site-wide settings (name, description, etc.)
+Subroutes:
+
+/dashboard/settings – View & edit settings
+
+API Used:
+
+GET /settings
+
+PUT /settings/{id}
+
+/dashboard/files
+Purpose: Manage uploaded files
+Subroutes:
+
+/dashboard/files – List of files (search, pagination)
+
+/dashboard/files/upload – Upload new file
+
+/dashboard/files/:id/edit – Rename/update metadata
+
+API Used:
+
+GET /file
+
+POST /file
+
+PUT /file/{id}
+
+DELETE /file/{id}

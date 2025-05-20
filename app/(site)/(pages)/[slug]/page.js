@@ -1,6 +1,5 @@
-import SingleArticle from "@/app/components/default/ui/SingleArticle/SingleArticle";
-import SinglePage from "@/app/components/default/ui/singlePage/SinglePage";
-import { getPageBySlug, getPages } from "@/app/lib/apiHelper";
+import SinglePage from "@/app/(site)/components/default/ui/singlePage/SinglePage";
+import { getPageBySlug, getPages } from "@/app/(site)/lib/apiHelper";
 import { Suspense } from "react";
 
 

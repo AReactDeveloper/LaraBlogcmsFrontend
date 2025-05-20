@@ -76,8 +76,10 @@ export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDes
         ))}
       </div>
     </div>
-
-    <div className={styles.Pagination}>
+        
+    {/*Only show pagination when needed*/}
+    {Articles.length > ArticlePerPage ? (
+      <div className={styles.Pagination}>
       <button onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1}>
         Prev
       </button>
@@ -99,6 +101,7 @@ export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDes
         Next
       </button>
     </div>
+    ):('')}
   </>
   )
 }

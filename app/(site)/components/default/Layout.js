@@ -3,7 +3,7 @@ import Sidebar from "./ui/SideBar/Sidebar"
 import './styles/main.scss'
 
 import { Open_Sans } from 'next/font/google';
-import { getArticles, getCategories, getPages, getTags } from "@/app/lib/apiHelper";
+import { getArticles, getCategories, getPages, getTags } from "@/app//(site)/lib/apiHelper";
 
 const openSans = Open_Sans({
   subsets: ['latin'],

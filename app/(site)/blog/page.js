@@ -1,4 +1,4 @@
-import { getArticles, getSiteInfo } from "@/app/lib/apiHelper";
+import { getArticles, getSiteInfo } from "@/app/(site)/lib/apiHelper";
 import ArticleList from "../components/default/ui/ArticleList/ArticleList";
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export default async function Blog() {
         Articles={articles || []}
         pageTitle={'Blog List : '}
         pageDescription={'Explore our latest articles here you can read them all '}
-      />
+     />
     </main>
   );
 }
