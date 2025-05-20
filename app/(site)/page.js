@@ -1,5 +1,5 @@
 import SlideShow from '@/app/(site)/components/default/ui/Home/slider/SlideShow'
-import { getArticles } from './lib/apiHelper';
+import { getArticles } from '../lib/apiHelper';
 import LatestArticles from './components/default/ui/Home/LatestArticles/LatestArticles';
 
 export default async function Page() {

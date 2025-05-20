@@ -1,6 +1,8 @@
 import { unstable_cache } from 'next/cache';
 import axiosInstance from "./axios";
 
+const revalidationTime = 3600;
+
 // List all articles
 export const getArticles = unstable_cache(
   async () => {
@@ -16,7 +18,7 @@ export const getArticles = unstable_cache(
     return resObj;
   },
   ['articles'], // unchanged, already dash style
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // List all Pages
@@ -34,7 +36,7 @@ export const getPages = unstable_cache(
     return resObj;
   },
   ['articles'], // unchanged, already dash style
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get a single page by slug
@@ -52,7 +54,7 @@ export const getPageBySlug = unstable_cache(
     return resObj.data;
   },
   (slug) => [`article-${slug}`], // updated tag format
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get a single article by slug
@@ -70,7 +72,7 @@ export const getArticleBySlug = unstable_cache(
     return resObj.data;
   },
   (slug) => [`article-${slug}`], // updated tag format
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 
@@ -91,7 +93,7 @@ export const getCategories = unstable_cache(
     return resObj;
   },
   ['categories'], // unchanged, dash style already
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get a list of all tags
@@ -109,7 +111,7 @@ export const getTags = unstable_cache(
     return resObj;
   },
   ['tags'], // unchanged, dash style already
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get tag by title
@@ -127,7 +129,7 @@ export const getTagByTitle = unstable_cache(
     return resObj;
   },
   (title) => [`tag-${title}`], // updated tag format
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get category by title
@@ -145,7 +147,7 @@ export const getCategoryByTitle = unstable_cache(
     return resObj;
   },
   (title) => [`category-${title}`], // updated tag format
-  { revalidate: 3600 } // cache for 1 hour
+  { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get siteInfo
@@ -164,5 +166,5 @@ export const getSiteInfo = unstable_cache(
     return resObj;
   },
   ['site-info'], // updated from 'siteInfo' to dash style 'site-info'
-  { revalidate: 60 } // cache for 1 minute
+  { revalidate: revalidationTime } // cache for 1 minute
 );

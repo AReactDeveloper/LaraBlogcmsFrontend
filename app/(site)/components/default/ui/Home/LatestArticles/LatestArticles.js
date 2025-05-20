@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import ArticleList from '../../ArticleList/ArticleList'
-import { getArticles } from '@/app/(site)/lib/apiHelper';
+import { getArticles } from '@/app/lib/apiHelper';
 
 export default async function LatestArticles() {
 

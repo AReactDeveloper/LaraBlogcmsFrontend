@@ -1,5 +1,5 @@
 import SingleArticle from "@/app/(site)/components/default/ui/SingleArticle/SingleArticle";
-import { getArticleBySlug, getArticles } from "@/app/(site)/lib/apiHelper";
+import { getArticleBySlug, getArticles } from "@/app/lib/apiHelper";
 import { Suspense } from "react";
 import styles from './singlePost.module.scss'
 import CommentList from "@/app/(site)/components/default/ui/commentList/CommentList";

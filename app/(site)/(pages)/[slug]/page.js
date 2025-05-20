@@ -1,5 +1,5 @@
 import SinglePage from "@/app/(site)/components/default/ui/singlePage/SinglePage";
-import { getPageBySlug, getPages } from "@/app/(site)/lib/apiHelper";
+import { getPageBySlug, getPages } from "@/app/lib/apiHelper";
 import { Suspense } from "react";
 
 
@@ -34,10 +34,6 @@ export default async function SinglePost({ params }) {
         <Suspense fallback={'loading...'}>
           <SinglePage
             title={data.title}
-            created_at={data.created_at}
-            category={data.category}
-            tags={data.tags}
-            imgUrl={data.imgUrl}
             content={data.content}
           />
         </Suspense>

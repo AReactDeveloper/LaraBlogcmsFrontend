@@ -1,7 +1,7 @@
 'use client';
-import { postComment } from '@/app/(site)/lib/apiPosterHelper';
+import { postComment } from '@/app/lib/apiPosterHelper';
 import React, { useEffect, useState } from 'react';
-import axiosInstance from '@/app/(site)/lib/axios';
+import axiosInstance from '@/app/lib/axios';
 import CommentContainer from '../commentContainer/CommentContainer';
 
 export default function CommentList({ slug, articleId, comments }) {

@@ -1,4 +1,4 @@
-import { getArticles, getSiteInfo } from "@/app/(site)/lib/apiHelper";
+import { getArticles, getSiteInfo } from "@/app/lib/apiHelper";
 import ArticleList from "../components/default/ui/ArticleList/ArticleList";
 
 export const dynamic = 'force-dynamic';
