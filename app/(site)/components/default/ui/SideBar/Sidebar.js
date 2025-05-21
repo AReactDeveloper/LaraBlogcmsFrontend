@@ -6,7 +6,6 @@ import 'react-loading-skeleton/dist/skeleton.css';
 
 export default function Sidebar({categories,tags,pages}) {
 
-  console.log(pages)
 
   if (!categories || !tags || !pages) {
     return (

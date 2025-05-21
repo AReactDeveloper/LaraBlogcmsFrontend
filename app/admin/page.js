@@ -1,5 +1,11 @@
-export default function page() {
+import { getUser } from "../lib/authHelper"
+
+
+export default async function page() {
+
   return (
-    <div>admin home page</div>
+      <>
+        <h1>Welcome to the Admin Dashboard</h1>
+      </>
   )
 }

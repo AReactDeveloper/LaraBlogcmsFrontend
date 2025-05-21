@@ -13,7 +13,7 @@ export default async function RootLayout({ children }) {
   const {data , error , loading} = await getSiteInfo();
   const result = data || {};
 
-  const theme = data?.siteTheme || 'default';
+  const theme = result?.siteTheme || 'default';
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
 

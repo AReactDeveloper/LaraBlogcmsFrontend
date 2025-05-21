@@ -86,7 +86,6 @@ export const getCategories = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
-      console.log(error);
     } finally {
       resObj.loading = false;
     }
@@ -159,7 +158,6 @@ export const getSiteInfo = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
-      console.log(resObj.error);
     } finally {
       resObj.loading = false;
     }

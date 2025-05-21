@@ -7,12 +7,23 @@ import CommentList from "@/app/(site)/components/default/ui/commentList/CommentL
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
+  const { slug } = params;
   const data = await getArticleBySlug(slug);
 
+  if (!data) {
+    return {
+      title: 'Article not found | blog article',
+      description: 'No article found with this slug.',
+      openGraph: {
+        title: 'Article not found',
+        description: 'No article found with this slug.',
+      },
+    };
+  }
+
   return {
-    title: `${data.title} | ${'blog article'} ` ,
-    description: data.description || data.excerpt, // fallback to content
+    title: `${data.title} | blog article`,
+    description: data.description || data.excerpt,
     openGraph: {
       title: data.title,
       description: data.description || data.excerpt,
@@ -31,6 +42,13 @@ export default async function SinglePost({ params }) {
   const { slug } = await params;
   const data = await getArticleBySlug(slug);
 
+  console.log(data)
+
+  if(!data){
+    return(
+      <div className="error-message">Faild to load article from server</div>
+    )
+  }
   return (
     <>
       <div className={styles.singlePost}>
@@ -43,8 +61,8 @@ export default async function SinglePost({ params }) {
             imgUrl={data.imgUrl}
             content={data.content}
           />
-        <Suspense fallback={'loading...'}>
         </Suspense>
+        <Suspense fallback={'loading...'}>
           <CommentList slug={data.slug} articleId={data.id} comments={data.comments || []} />
         </Suspense>
       </div>
@@ -52,4 +70,3 @@ export default async function SinglePost({ params }) {
   );
 }
 
-export const revalidate = 100; // Revalidate every 60 seconds
