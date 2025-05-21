@@ -7,7 +7,7 @@ import CommentList from "@/app/(site)/components/default/ui/commentList/CommentL
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const data = await getArticleBySlug(slug);
 
   if (!data) {
@@ -41,8 +41,6 @@ export async function generateStaticParams() {
 export default async function SinglePost({ params }) {
   const { slug } = await params;
   const data = await getArticleBySlug(slug);
-
-  console.log(data)
 
   if(!data){
     return(

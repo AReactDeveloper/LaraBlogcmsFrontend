@@ -2,7 +2,15 @@ import { getSiteInfo } from "../lib/apiHelper";
 
 export async function generateMetadata() {
   const {data } = await getSiteInfo();
-  const result = data || {};
+  const result = data;
+
+  if(!data){
+    return {
+      title : 'site name',
+      description : 'site description'
+    }
+  }
+
   return {
     title: result.siteName || 'Default Site Title',
     description: result.siteDescription || 'Default site description',

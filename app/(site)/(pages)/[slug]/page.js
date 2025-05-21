@@ -8,13 +8,16 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const data = await getPageBySlug(slug);
 
+  if(!data){
+    return {
+      title: `page title ` ,
+      description: 'page description'
+    };
+  }
+
   return {
-    title: `${data.title} | ${'blog article'} ` ,
-    description: data.content, // fallback to content
-    openGraph: {
-      title: data.title,
-      description: data.content,
-    },
+    title: data.title ,
+    description: data.content
   };
 }
 

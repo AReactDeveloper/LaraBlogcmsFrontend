@@ -12,6 +12,7 @@ export const getArticles = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null; // explicitly returning null for better error handling
     } finally {
       resObj.loading = false;
     }
@@ -30,6 +31,7 @@ export const getPages = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
     } finally {
       resObj.loading = false;
     }
@@ -48,6 +50,8 @@ export const getPageBySlug = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -66,6 +70,8 @@ export const getArticleBySlug = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -86,6 +92,8 @@ export const getCategories = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -104,6 +112,8 @@ export const getTags = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -122,6 +132,8 @@ export const getTagByTitle = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -140,6 +152,8 @@ export const getCategoryByTitle = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }
@@ -158,6 +172,8 @@ export const getSiteInfo = unstable_cache(
       resObj.data = response.data;
     } catch (error) {
       resObj.error = error;
+      return null;
+
     } finally {
       resObj.loading = false;
     }

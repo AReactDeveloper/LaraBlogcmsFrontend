@@ -5,9 +5,9 @@ import { getCategoryByTitle } from "@/app/lib/apiHelper";
 export async function generateMetadata({ params }) {
   try {
     const { title } = await params;
-    const { data, error } = await getCategoryByTitle(title);
+    const { data } = await getCategoryByTitle(title);
 
-    if (error || !data) {
+    if (!data) {
       return {
         title: `${title} | Category not found`,
         description: `No description available for Category "${title}".`,

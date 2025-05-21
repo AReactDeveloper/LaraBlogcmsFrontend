@@ -5,9 +5,9 @@ import { getTagByTitle } from "@/app/lib/apiHelper";
 export async function generateMetadata({ params }) {
   try {
     const { title } = await params;
-    const { data, error } = await getTagByTitle(title);
+    const { data } = await getTagByTitle(title);
 
-    if (error || !data) {
+    if (!data) {
       return {
         title: `${title} | Tag not found`,
         description: `No description available for tag "${title}".`,
