@@ -34,9 +34,9 @@ export default async function singleTag({ params }) {
   const ArticlePerPage = 8;
   const { title } = await params;
 
-  const { data, error  } = await getTagByTitle(title);
+  const { data  } = await getTagByTitle(title);
 
-  if(error || !data) {
+  if(!data) {
     return (
       <div className='error-message'>Tag not found</div>
     )

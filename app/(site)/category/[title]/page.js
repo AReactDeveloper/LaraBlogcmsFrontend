@@ -34,9 +34,9 @@ export default async function SingleCategory({ params }) {
   const ArticlePerPage = 8;
   const { title } = await params;
 
-  const { data, error  } = await getCategoryByTitle(title);
+  const { data  } = await getCategoryByTitle(title);
 
-  if(error || !data) {
+  if(!data) {
     return (
       <div className='error-message'>Category not found</div>
     )
