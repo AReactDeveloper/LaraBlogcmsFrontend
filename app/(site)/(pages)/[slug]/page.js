@@ -1,23 +1,31 @@
-import SinglePage from "@/app/(site)/components/default/ui/singlePage/SinglePage";
 import { getPageBySlug, getPages } from "@/app/lib/apiHelper";
 import { Suspense } from "react";
+import SinglePage from "@/app/(site)/components/default/ui/singlePage/SinglePage";
 
 
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const data = await getPageBySlug(slug);
+  const {data} = await getPageBySlug(slug);
 
   if(!data){
     return {
       title: `page title ` ,
-      description: 'page description'
+      description: 'page description',
+      openGraph:{
+        title : 'page not found',
+        description: 'no page found with slug'
+      }
     };
   }
 
   return {
-    title: data.title ,
-    description: data.content
+    title: `${data.title} | blog page` ,
+    description: data.description,
+    openGraph:{
+      title : data.title,
+      description: data.description
+    }
   };
 }
 
@@ -30,8 +38,13 @@ export async function generateStaticParams() {
 
 export default async function SinglePost({ params }) {
   const { slug } = await params;
-  const data = await getPageBySlug(slug) || [];
+  const {data} = await getPageBySlug(slug);
 
+  if(!data){
+    return(
+      <div className="error-message">Failed to load page from server</div>
+    )
+  }
 
   return (
     <>
@@ -45,4 +58,3 @@ export default async function SinglePost({ params }) {
   );
 }
 
-export const revalidate = 100; // Revalidate every 60 seconds

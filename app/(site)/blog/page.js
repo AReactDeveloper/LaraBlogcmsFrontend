@@ -1,8 +1,6 @@
 import { getArticles, getSiteInfo } from "@/app/lib/apiHelper";
 import ArticleList from "../components/default/ui/ArticleList/ArticleList";
 
-export const dynamic = 'force-dynamic';
-
 export default async function Blog() {
   const { data: articles , loading : articleLoading} = await getArticles();
   const { data: siteInfo} = await getSiteInfo();

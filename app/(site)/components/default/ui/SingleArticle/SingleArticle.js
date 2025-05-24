@@ -33,8 +33,8 @@ export default function SingleArticle({
             <span>{formatedDate}</span>
           </span>
           <span>
-            <Link href={`/category/${category.title}`}>
-              <span><TbCategory2 />{category.title}</span>
+            <Link href={`/category/${category?.title}`}>
+              <span><TbCategory2 />{category?.title}</span>
             </Link>
           </span>
           <span>
@@ -48,16 +48,16 @@ export default function SingleArticle({
           </span>
         </div>
         <div className={styles.postTags}>
-          {tags.map(tag => (
-            <Link key={tag.id} href={`/tags/${tag.title}`}>
-              {tag.title}
-            </Link>
-          ))}
+              {Array.isArray(tags) && tags.map(tag => (
+        <Link key={tag.id} href={`/tags/${tag.title}`}>
+          {tag.title}
+        </Link>
+))}
         </div>
       </div>
       <div className={styles.postImg}>
         <Image
-          src={imgUrl}
+          src={imgUrl || '/default.jpg'} 
           width={400}
           height={400}
           alt={title}

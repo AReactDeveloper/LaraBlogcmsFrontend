@@ -11,12 +11,11 @@ const openSans = Open_Sans({
 });
 
 export default async function Layout({ children , siteInfo }) {
-  
-  const {data : categories} = await getCategories()
-  const {data : tags} = await getTags()
-  const {data: articles} = await getArticles();
-  const {data: pages} = await getPages();
 
+  const {data : categories } = await getCategories()
+  const {data : tags  } = await getTags()
+  const {data : articles } = await getArticles()
+  const {data : pages } = await getPages()
 
   return (
     <span className={openSans.className}>

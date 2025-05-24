@@ -1,3 +1,4 @@
+'use server'
 import SingleArticle from "@/app/(site)/components/default/ui/SingleArticle/SingleArticle";
 import { getArticleBySlug, getArticles } from "@/app/lib/apiHelper";
 import { Suspense } from "react";
@@ -8,9 +9,9 @@ import CommentList from "@/app/(site)/components/default/ui/commentList/CommentL
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const data = await getArticleBySlug(slug);
+  const {data , error} = await getArticleBySlug(slug);
 
-  if (!data) {
+  if (error || !data) {
     return {
       title: 'Article not found | blog article',
       description: 'No article found with this slug.',
@@ -32,17 +33,19 @@ export async function generateMetadata({ params }) {
 }
 
 export async function generateStaticParams() {
-  const data = await getArticles();
-  const articles = data.data;
-  return articles.map((article) => ({ slug: article.slug }));
+  const { data: articles } = await getArticles();
+  if(articles){
+    return articles.map((article) => ({ slug: article.slug }));
+  }
 }
-
 
 export default async function SinglePost({ params }) {
   const { slug } = await params;
-  const data = await getArticleBySlug(slug);
+  const {data , error} = await getArticleBySlug(slug);
 
-  if(!data){
+  console.log(data)
+
+  if(error || !data){
     return(
       <div className="error-message">Faild to load article from server</div>
     )

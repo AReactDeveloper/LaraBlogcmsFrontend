@@ -1,18 +1,17 @@
 import { unstable_cache } from 'next/cache';
 import axiosInstance from "./axios";
 
-const revalidationTime = 3600;
+const revalidationTime = 60 * 60;
 
 // List all articles
 export const getArticles = unstable_cache(
   async () => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/articles');
-      resObj.data = response.data;
+      resObj.data = response.data || [];
     } catch (error) {
-      resObj.error = error;
-      return null; // explicitly returning null for better error handling
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
@@ -25,37 +24,34 @@ export const getArticles = unstable_cache(
 // List all Pages
 export const getPages = unstable_cache(
   async () => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/pages/');
-      resObj.data = response.data;
+      resObj.data = response.data || [];
     } catch (error) {
-      resObj.error = error;
-      return null;
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
     return resObj;
   },
-  ['articles'], // unchanged, already dash style
+  ['pages'], // unchanged, already dash style
   { revalidate: revalidationTime } // cache for 1 hour
 );
 
 // Get a single page by slug
 export const getPageBySlug = unstable_cache(
   async (slug) => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/pages/' + slug);
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
-    return resObj.data;
+    return resObj;
   },
   (slug) => [`article-${slug}`], // updated tag format
   { revalidate: revalidationTime } // cache for 1 hour
@@ -64,18 +60,16 @@ export const getPageBySlug = unstable_cache(
 // Get a single article by slug
 export const getArticleBySlug = unstable_cache(
   async (slug) => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/articles/' + slug);
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
-    return resObj.data;
+    return resObj;
   },
   (slug) => [`article-${slug}`], // updated tag format
   { revalidate: revalidationTime } // cache for 1 hour
@@ -86,14 +80,12 @@ export const getArticleBySlug = unstable_cache(
 // Get a list of all categories
 export const getCategories = unstable_cache(
   async () => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/categories/');
-      resObj.data = response.data;
+      resObj.data = response.data || [];
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
@@ -106,14 +98,12 @@ export const getCategories = unstable_cache(
 // Get a list of all tags
 export const getTags = unstable_cache(
   async () => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/tags/');
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
@@ -126,14 +116,12 @@ export const getTags = unstable_cache(
 // Get tag by title
 export const getTagByTitle = unstable_cache(
   async (title) => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/tags/' + title);
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
@@ -146,14 +134,12 @@ export const getTagByTitle = unstable_cache(
 // Get category by title
 export const getCategoryByTitle = unstable_cache(
   async (title) => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/categories/' + title);
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }
@@ -166,14 +152,12 @@ export const getCategoryByTitle = unstable_cache(
 // Get siteInfo
 export const getSiteInfo = unstable_cache(
   async () => {
-    const resObj = { data: null, error: null, loading: true };
+    const resObj = { data: {}, error: '', loading: true };
     try {
       const response = await axiosInstance.get('/api/settings/');
       resObj.data = response.data;
     } catch (error) {
-      resObj.error = error;
-      return null;
-
+      resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;
     }

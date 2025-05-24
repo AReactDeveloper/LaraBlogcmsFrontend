@@ -1,118 +1,252 @@
+/* Reset and base styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  height: 100%;
+  background-color: #f8f9fa;
+}
+
+/* Dashboard layout with sidebar + main content */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Main content area */
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.main-content h1 {
+  margin-bottom: 2rem;
+}
+
+/* Form container styling */
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  color: #222;
+}
+
+.formContainer img {
+  width: 10%;
+  height: auto;
+}
+
+.formContainer .form-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.formContainer h2 {
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+}
+
+.formContainer label {
+  white-space: nowrap;
+  width: 180px; /* fixed label width */
+  font-weight: bold;
+}
+
+.formContainer input[type="text"],
+.formContainer input[type="email"],
+.formContainer input[type="password"],
+.formContainer input[type="number"],
+.formContainer textarea,
+.formContainer select {
+  width: 100%; /* force consistent full width */
+  padding: 0.75rem;
+  border: 1px solid #6b6b6b;
+  border-radius: 0.25rem;
+  background-color: #fff;
+  color: #222;
+  transition: border 0.2s;
+}
+
+.formContainer input:focus,
+.formContainer textarea:focus,
+.formContainer select:focus {
+  border-color: #0073aa;
+  outline: none;
+}
+
+.formContainer textarea {
+  min-height: 100px; /* prevent collapse */
+  resize: vertical;
+}
+
+.formContainer button {
+  background-color: #0073aa;
+  color: #ffffff;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.formContainer button:hover,
+.formContainer button:focus {
+  background-color: #005f8d;
+}
+
+/* Success and error messages */
+.success {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  background-color: #e6ffed;
+  color: #1a7f37;
+  border: 1px solid #a0d9af;
+}
+
+.error {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 500;
+  background-color: #ffe6e6;
+  color: #a30000;
+  border: 1px solid #f5a9a9;
+}
+
+
+/* Responsive table styles */
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  /* Removed min-width: 600px to allow shrinking */
+}
+
+.responsive-table th,
+.responsive-table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.responsive-table thead {
+  background-color: #f9f9f9;
+}
+
+.responsive-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Responsive for small screens */
+@media (max-width: 640px) {
+  .responsive-table {
+    border: 0;
   }
-  
-  body, html {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    background-color: #f8f9fa;
+
+  .responsive-table thead {
+    display: none;
   }
-  
-  .dashboard {
+
+  .responsive-table tr {
+    display: block;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 0.5rem;
+  }
+
+  .responsive-table td {
     display: flex;
-    min-height: 100vh;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #eee;
   }
 
+  .responsive-table td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    text-transform: capitalize;
+    color: #333;
+  }
 
-  .main-content {
-    flex: 1;
-    padding: 40px;
+  .responsive-table td:last-child {
+    border-bottom: none;
+  }
+}
 
-    & h1{
-      margin-bottom: 2rem;
-    }
-  }
-  
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  body, html {
-    font-family: Arial, sans-serif;
-    height: 100%;
-    background-color: #f8f9fa;
-  }
-  
-  .dashboard {
-    display: flex;
-    min-height: 100vh;
-  }
-  
 
-  .formContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    color: #222;
+/*table*/
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+thead {
+  background: #f9f9f9;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+}
+tr:hover {
+  background-color: #f1f1f1;
+}
+th input[type="checkbox"],
+td input[type="checkbox"] {
+  margin: 0;
+}
+.post-title {
+  color: #0073aa;
+  font-weight: 600;
+  text-decoration: none;
+}
+.post-title:hover {
+  text-decoration: underline;
+}
+.row-actions {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.row-actions span {
+  margin-right: 10px;
+}
+.row-actions a {
+  color: #0073aa;
+  text-decoration: none;
+}
+.row-actions a:hover {
+  text-decoration: underline;
+}
 
-    & img{
-      width: 10%;
-      height: auto;
-    }
-  
-    & .form-control {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-  
-    & h2 {
-      margin-bottom: 1.5rem;
-      color: #ffffff;
-    }
-  
-    & label {
-      white-space: nowrap;
-      width: 180px; // 👈 fixed label width
-      font-weight: bold;
-    }
-  
-    & input[type="text"],
-    & input[type="email"],
-    & input[type="password"],
-    & input[type="number"],  
-    & textarea,
-    & select {
-      width: 100%; // ✅ force consistent full width
-      padding: 0.75rem;
-      border: 1px solid #6b6b6b;
-      border-radius: 0.25rem;
-      background-color: #fff;
-      color: #222;
-      transition: border 0.2s;
-    }
-  
-    & input:focus,
-    & textarea:focus,
-    & select:focus {
-      border-color: #0073aa;
-      outline: none;
-    }
-  
-    & textarea {
-      min-height: 100px; // ✅ prevent collapse
-      resize: vertical;
-    }
-  
-    & button {
-      background-color: #0073aa;
-      color: #ffffff;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      border-radius: 0.25rem;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-  
-    & button:hover,
-    & button:focus {
-      background-color: #005f8d;
-    }
+.header-button {
+  text-decoration: none;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #005f8d;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-left: 1rem;
+  &:hover{
+    background-color: #1782b8;
   }
-  
+}
+
+.pageHead{
+  & h1 {
+    margin: 1.2rem 0;
+  }
+  & p {
+    margin-bottom: 1rem;
+  }
+}

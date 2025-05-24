@@ -18,7 +18,7 @@ export async function generateMetadata() {
 }
 
 export default async function RootLayout({ children }) {
-  const {data , error , loading} = await getSiteInfo();
+  const {data , error } = await getSiteInfo();
   const result = data || {};
 
   const theme = result?.siteTheme || 'default';
