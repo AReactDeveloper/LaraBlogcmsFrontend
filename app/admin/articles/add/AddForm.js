@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import postAddArticle from './AddAction'
 import Spinner from '../../components/Utility/Spinner'
 
-export default function a() {
+export default function AddForm() {
 
   const [loading,setLoading] = useState(true)
   const [message,setMessage] = useState(null)

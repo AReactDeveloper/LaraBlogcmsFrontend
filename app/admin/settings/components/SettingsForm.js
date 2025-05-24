@@ -1,6 +1,6 @@
 'use client';
 import  postToSettings  from '../settingsAction';
-import React, { use, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axiosInstance from '@/app/lib/axios';
 import Spinner from '../../components/Utility/Spinner';
 
