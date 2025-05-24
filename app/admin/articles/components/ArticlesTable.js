@@ -36,8 +36,8 @@ export default function ArticlesTable({articles}) {
               </div>
             </td>
             <td>admin</td>
-            <td>{article.category.title}</td>
-            <td>{article.tags.map(tag=>tag.title + ',')}</td>
+            <td>{article?.category?.title}</td>
+            <td>{article?.tags?.map(tag=>tag.title + ',')}</td>
             <td>Published<br />
             <small>{
     (() => {
