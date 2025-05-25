@@ -49,7 +49,7 @@ export default function AddForm() {
 
       <div className="form-control">
         <label htmlFor="content">Article Content:</label>
-        <MyEditor setEditorOutput={setEditorOutput} />
+        {/**<MyEditor setEditorOutput={setEditorOutput} /> */}
         <input type="hidden" value={editorOutput} name='content' />
       </div>
 
