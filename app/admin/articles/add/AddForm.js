@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import postAddArticle from './AddAction'
 import Spinner from '../../components/Utility/Spinner'
 import { useRouter } from 'next/navigation'
+import dynamic from 'next/dynamic'
 
 export default function AddForm() {
 
