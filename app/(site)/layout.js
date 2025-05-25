@@ -19,13 +19,24 @@ export async function generateMetadata() {
 
 export default async function RootLayout({ children }) {
   const {data , error } = await getSiteInfo();
-  const result = data || {};
+  const result = data;
 
   const theme = result?.siteTheme || 'default';
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
 
-  console.log(error)
+  if(data){
+    return(
+      <html lang="en">
+      <body style={{display:'flex',placeContent:'center',minHeight:'100vh'}}>
+          <div className="error-message" style={{height:'fit-content'}}>
+            <p>data is empty</p>
+          </div>
+      </body>
+    </html>
+     
+    )
+  }
 
   if(error){
     return(

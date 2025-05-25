@@ -1,7 +1,7 @@
 import { unstable_cache } from 'next/cache';
 
 const revalidationTime = 1;
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 // List all articles
 export const getArticles = unstable_cache(
