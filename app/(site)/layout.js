@@ -25,12 +25,13 @@ export default async function RootLayout({ children }) {
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
 
-  if(data){
+  if(error){
     return(
       <html lang="en">
       <body style={{display:'flex',placeContent:'center',minHeight:'100vh'}}>
           <div className="error-message" style={{height:'fit-content'}}>
-            <p>data is empty</p>
+            <p>Failed to load resources from the server</p>
+            <p style={{ color: 'red' }}>{error}</p>  
           </div>
       </body>
     </html>
@@ -38,18 +39,7 @@ export default async function RootLayout({ children }) {
     )
   }
 
-  if(error){
-    return(
-      <html lang="en">
-      <body style={{display:'flex',placeContent:'center',minHeight:'100vh'}}>
-          <div className="error-message" style={{height:'fit-content'}}>
-            <p>Failed to load resources from the server</p>
-          </div>
-      </body>
-    </html>
-     
-    )
-  }
+  
 
 
   return (
