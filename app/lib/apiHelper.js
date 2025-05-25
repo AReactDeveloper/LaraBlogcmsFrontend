@@ -33,7 +33,7 @@ export const getPages = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/pages/`, fetchOptions);
+      const response = await fetch(`${API_BASE}/api/pages`, fetchOptions);
       if (!response.ok) throw new Error(await response.text());
       resObj.data = (await response.json()) || [];
     } catch (error) {
@@ -90,7 +90,7 @@ export const getCategories = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/categories/`, fetchOptions);
+      const response = await fetch(`${API_BASE}/api/categories`, fetchOptions);
       if (!response.ok) throw new Error(await response.text());
       resObj.data = (await response.json()) || [];
     } catch (error) {
@@ -109,7 +109,7 @@ export const getTags = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/tags/`, fetchOptions);
+      const response = await fetch(`${API_BASE}/api/tags`, fetchOptions);
       if (!response.ok) throw new Error(await response.text());
       resObj.data = await response.json();
     } catch (error) {
@@ -166,7 +166,7 @@ export const getSiteInfo = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/settings/`, fetchOptions);
+      const response = await fetch(`${API_BASE}/api/settings`, fetchOptions);
       if (!response.ok) throw new Error(await response.text());
       resObj.data = await response.json();
     } catch (error) {
