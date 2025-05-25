@@ -8,14 +8,20 @@ import CommentList from "@/app/(site)/components/default/ui/commentList/CommentL
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
-  const {data , error} = await getArticleBySlug(slug);
+  const { slug } = params;
+  const { data, error } = await getArticleBySlug(slug);
 
   if (error || !data) {
     return {
-      title: 'Article not found | blog article',
+      title: 'Article not found | Blog',
       description: 'No article found with this slug.',
       openGraph: {
+        title: 'Article not found',
+        description: 'No article found with this slug.',
+        url: `https://lara-blogcms-frontend.vercel.app/${slug}`,
+      },
+      twitter: {
+        card: 'summary',
         title: 'Article not found',
         description: 'No article found with this slug.',
       },
@@ -23,11 +29,25 @@ export async function generateMetadata({ params }) {
   }
 
   return {
-    title: `${data.title} | blog article`,
-    description: data.description || data.excerpt,
+    title: `${data.title} | Blog`,
+    description: data.description || data.excerpt || 'Read this article on our blog.',
     openGraph: {
       title: data.title,
       description: data.description || data.excerpt,
+      url: `https://lara-blogcms-frontend.vercel.app/${data.slug}`,
+      images: data.imgUrl ? [
+        {
+          url: data.imgUrl,
+          alt: data.title,
+        },
+      ] : undefined,
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: data.title,
+      description: data.description || data.excerpt,
+      images: data.imgUrl ? [data.imgUrl] : undefined,
     },
   };
 }
