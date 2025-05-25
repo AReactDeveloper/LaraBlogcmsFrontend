@@ -13,7 +13,7 @@ export default function SettingsForm() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axiosInstance.get('/api/settings/');
+        const res = await axiosInstance.get('/api/settings');
         setSiteInfo(res.data);
         setLoading(false);
       } catch (err) {
