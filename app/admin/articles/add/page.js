@@ -1,13 +1,17 @@
+'use client'
+
+import Head from 'next/head'
 import AddForm from './AddForm'
 
-export const metadata = {
-  title: 'Add new Article',
-  description: '',
-}
-
-
-export default function page() {
+export default function Page() {
   return (
-    <AddForm />
+    <>
+      <Head>
+        <title>Add new Article</title>
+        <meta name="description" content="" />
+      </Head>
+
+      <AddForm />
+    </>
   )
 }
