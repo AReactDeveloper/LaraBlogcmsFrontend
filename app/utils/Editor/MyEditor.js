@@ -1,38 +1,36 @@
 import React, { useEffect, useRef } from 'react';
+import EditorJS from '@editorjs/editorjs';
+import EDITOR_JS_TOOLS from './tools.js';
 
 const EditorComponent = ({ setEditorOutput, content }) => {
   const editorRef = useRef(null);
   const holderRef = useRef(null);
 
   useEffect(() => {
-    let editor;
-
-    import('@editorjs/editorjs').then(({ default: EditorJS }) => {
-      import('./tools.js').then(({ default: EDITOR_JS_TOOLS }) => {
-        editor = new EditorJS({
-          holder: holderRef.current,
-          tools: EDITOR_JS_TOOLS,
-          data: content ? JSON.parse(content) : {},
-          autofocus: true,
-          placeholder: 'Enter your content here...',
-          onReady: () => {
-            editorRef.current = editor;
-            showInlineToolbar();
-          },
-          onChange: async () => {
-            try {
-              if (editorRef.current) {
-                const outputData = await editorRef.current.save();
-                setEditorOutput(JSON.stringify(outputData));
-                showInlineToolbar();
-              }
-            } catch (error) {
-              console.error('Failed to save content:', error);
+    if (!editorRef.current) {
+      const editor = new EditorJS({
+        holder: holderRef.current,
+        tools: EDITOR_JS_TOOLS,
+        data: content ? JSON.parse(content) : {},
+        autofocus: true,
+        placeholder: 'Enter your content here...',
+        onReady: () => {
+          editorRef.current = editor;
+          showInlineToolbar();
+        },
+        onChange: async () => {
+          try {
+            if (editorRef.current) {
+              const outputData = await editorRef.current.save();
+              setEditorOutput(JSON.stringify(outputData));
+              showInlineToolbar();
             }
-          },
-        });
+          } catch (error) {
+            console.error('Failed to save content:', error);
+          }
+        },
       });
-    });
+    }
 
     return () => {
       if (editorRef.current) {
@@ -51,7 +49,9 @@ const EditorComponent = ({ setEditorOutput, content }) => {
     });
   };
 
-  return <div ref={holderRef}></div>;
+  return (
+    <div ref={holderRef}></div>
+  );
 };
 
 export default EditorComponent;
