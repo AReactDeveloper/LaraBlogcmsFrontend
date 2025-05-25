@@ -25,6 +25,8 @@ export default async function RootLayout({ children }) {
 
   const { default: Layout } = await import(`./components/${theme}/Layout`);
 
+  console.log(error)
+
   if(error){
     return(
       <html lang="en">
