@@ -44,7 +44,7 @@ export const getPages = unstable_cache(
 // Get a single page by slug
 export const getPageBySlug = unstable_cache(
   async (slug) => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/pages/${slug}`);
       if (!response.ok) throw new Error(await response.text());
@@ -63,7 +63,7 @@ export const getPageBySlug = unstable_cache(
 // Get a single article by slug
 export const getArticleBySlug = unstable_cache(
   async (slug) => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/articles/${slug}`);
       if (!response.ok) throw new Error(await response.text());
@@ -82,7 +82,7 @@ export const getArticleBySlug = unstable_cache(
 // Get a list of all categories
 export const getCategories = unstable_cache(
   async () => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/categories/`);
       if (!response.ok) throw new Error(await response.text());
@@ -101,7 +101,7 @@ export const getCategories = unstable_cache(
 // Get a list of all tags
 export const getTags = unstable_cache(
   async () => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/tags/`);
       if (!response.ok) throw new Error(await response.text());
@@ -120,7 +120,7 @@ export const getTags = unstable_cache(
 // Get tag by title
 export const getTagByTitle = unstable_cache(
   async (title) => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/tags/${title}`);
       if (!response.ok) throw new Error(await response.text());
@@ -139,7 +139,7 @@ export const getTagByTitle = unstable_cache(
 // Get category by title
 export const getCategoryByTitle = unstable_cache(
   async (title) => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/categories/${title}`);
       if (!response.ok) throw new Error(await response.text());
@@ -158,7 +158,7 @@ export const getCategoryByTitle = unstable_cache(
 // Get siteInfo
 export const getSiteInfo = unstable_cache(
   async () => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/settings/`);
       resObj.data = await response.json();
