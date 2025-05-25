@@ -6,7 +6,7 @@ const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
 // List all articles
 export const getArticles = unstable_cache(
   async () => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/articles`);
       if (!response.ok) throw new Error(await response.text());
@@ -25,7 +25,7 @@ export const getArticles = unstable_cache(
 // List all Pages
 export const getPages = unstable_cache(
   async () => {
-    const resObj = { data: {}, error: '', loading: true };
+    const resObj = { data: [], error: '', loading: true };
     try {
       const response = await fetch(`${API_BASE}/api/pages/`);
       if (!response.ok) throw new Error(await response.text());

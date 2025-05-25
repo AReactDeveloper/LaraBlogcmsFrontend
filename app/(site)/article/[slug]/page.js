@@ -32,6 +32,13 @@ export async function generateMetadata({ params }) {
   };
 }
 
+export async function generateStaticParams() {
+  const { data: articles } = await getArticles();
+  if(articles){
+    return articles.map((article) => ({ slug: article.slug }));
+  }
+}
+
 export default async function SinglePost({ params }) {
   const { slug } = await params;
   const {data , error} = await getArticleBySlug(slug);
