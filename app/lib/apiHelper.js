@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache';
 
-const revalidationTime = 1;
+const revalidationTime = 60 * 60;
 const API_BASE = process.env.NEXT_PUBLIC_API_URL;
 
 // Helper to standardize fetch options
