@@ -23,19 +23,36 @@ export default function SingleArticle({
   const formatedDate = createdDate.toLocaleDateString('en-GB');
   const updateTime = updatedDate.toLocaleDateString('en-GB');
 
+  const getImageFromArticle = () => {
+    try {
+      const parsed = JSON.parse(content);
+      const imageBlock = parsed.blocks.find(block => block.type === 'image');
+      if (imageBlock) {
+        return imageBlock.data?.file?.url || '';
+      }
+    } catch (e) {
+      console.log("Failed to extract image from content:", e);
+    }
+    return '';
+  };
+  const fallBackImgUrl = getImageFromArticle()
+  const finalImgUrl = imgUrl || fallBackImgUrl
+
+  
   let html = '';
+
   if (typeof content === 'string') {
     try {
+      const parsed = typeof content === 'string' ? JSON.parse(content) : content;
+      console.log(parsed)
       html = editorJsToHtml(content);
-      console.log(html)
     } catch(e) {
-      console.log(e)
       html = content; // fallback plain text
     }
   } else if (typeof content === 'object') {
-    html = editorJsToHtml(content);
+    html = editorJsToHtml(JSON.stringify(content));
   } else {
-    html = content || '';
+    html = `<p>${content || ''}</p>`;
   }
 
   
@@ -72,8 +89,9 @@ export default function SingleArticle({
         </div>
       </div>
       <div className={styles.postImg}>
-        <Image
-          src={imgUrl || '/default.jpg'} 
+        {imgUrl ? (
+          <Image
+          src={finalImgUrl} 
           width={400}
           height={400}
           alt={title}
@@ -81,6 +99,7 @@ export default function SingleArticle({
           placeholder="blur"
           blurDataURL="..."
         />
+        ): ''}
       </div>
       <div className={styles.postContent}>
         <div dangerouslySetInnerHTML={{ __html: html }} />

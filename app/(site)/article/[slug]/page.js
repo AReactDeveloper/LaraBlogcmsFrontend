@@ -28,6 +28,45 @@ export async function generateMetadata({ params }) {
     };
   }
 
+  if(!data.imgUrl){
+    const getImageFromArticle = () => {
+      try {
+        const parsed = JSON.parse(content);
+        const imageBlock = parsed.blocks.find(block => block.type === 'image');
+        if (imageBlock) {
+          return imageBlock.data?.file?.url || '';
+        }
+      } catch (e) {
+        console.log("Failed to extract image from content:", e);
+      }
+      return '';
+    };
+    const fallBackImgUrl = getImageFromArticle()
+    const finalImgUrl = data.imgUrl || fallBackImgUrl
+    return {
+      title: `${data.title} | Blog`,
+      description: data.description || data.excerpt || 'Read this article on our blog.',
+      openGraph: {
+        title: data.title,
+        description: data.description || data.excerpt,
+        url: `${process.env.NEXT_PUBLIC_FE_URL} / ${data.slug}`,
+        images: finalImgUrl ? [
+          {
+            url: finalImgUrl,
+            alt: data.title,
+          },
+        ] : undefined,
+        type: 'article',
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title: data.title,
+        description: data.description || data.excerpt,
+        images: data.imgUrl ? [data.imgUrl] : undefined,
+      },
+    };
+  }
+
   return {
     title: `${data.title} | Blog`,
     description: data.description || data.excerpt || 'Read this article on our blog.',
