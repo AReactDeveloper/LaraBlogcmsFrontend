@@ -17,6 +17,7 @@ export default async function Layout({ children , siteInfo }) {
   const { data: articles } = await getArticles();
   const { data: pages } = await getPages();
 
+
   return (
     <span className={openSans.className}>
       <Navbar articles={articles} siteName={siteInfo.siteName} />

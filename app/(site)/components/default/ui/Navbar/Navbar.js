@@ -14,6 +14,7 @@ import Search from "../Search/Search";
 
 export default function NavBar({siteName,articles}) {
 
+
   const [navOpen,setNavOpen] = useState(false)
   const [isSearchOpen,setIsSearchOpen] = useState(false)
 

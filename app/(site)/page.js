@@ -5,7 +5,6 @@ import LatestArticles from './components/default/ui/Home/LatestArticles/LatestAr
 export default async function Page() {
 
   const {data} = await getArticles()
-  console.log(data)
 
   return (
     <div>

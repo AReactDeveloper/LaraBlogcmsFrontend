@@ -22,8 +22,7 @@
       border-bottom: 1px solid #eee;
       width: 100% !important;
       height: 100% !important;
-
-      
+      margin-block: 0;
     }
 
   }
@@ -32,7 +31,7 @@
 .ArticleGridCard {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   align-items: center;
   overflow: hidden;
   background-color: #fff;
@@ -52,7 +51,7 @@
     h2 {
       margin-right: auto;
       font-size: 1.3rem;
-      margin: 0 0 8px 0;
+      margin: 0 0 1rem 0;
       color: #222;
     }
   

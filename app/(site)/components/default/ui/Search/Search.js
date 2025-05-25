@@ -1,39 +1,44 @@
-"use client";
-
 import { useState, useEffect, useMemo } from "react";
 import Fuse from "fuse.js";
 import Link from "next/link";
 import { CiFileOn } from "react-icons/ci";
-import styles from './search.module.scss'
+import styles from './search.module.scss';
 
-
-export default function Search({articles}) {
+export default function Search({ articles = [] }) {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState(articles);
+  const [results, setResults] = useState([]);
 
-  // Configure Fuse
+  // Preprocess tags to searchable string
+  const preprocessedArticles = useMemo(() => {
+    return articles.map(article => ({
+      ...article,
+      tagsString: article.tags?.map(tag => tag.title).join(" ") || '',
+    }));
+  }, [articles]);
+
+  // Fuse instance
   const fuse = useMemo(() => {
-    return new Fuse(articles, {
-      keys: ["title", "content", "tags"], // fields to search in
-      threshold: 0.3,  // adjust fuzziness (0 = exact, 1 = very fuzzy)
+    return new Fuse(preprocessedArticles, {
+      keys: ["title", "content", "tagsString"],
+      threshold: 0.3,
       includeScore: true,
     });
-  }, [articles]);
+  }, [preprocessedArticles]);
 
   useEffect(() => {
     if (!query.trim()) {
       setResults([]);
       return;
     }
-
     const searchResults = fuse.search(query);
-    setResults(searchResults.map((result) => result.item));
-  }, [query, fuse, articles]);
+    setResults(searchResults.map(r => r.item));
+  }, [query, fuse]);
 
   return (
     <div>
       <input
         type="search"
+        aria-label="Search articles"
         placeholder="Search articles..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
@@ -43,12 +48,12 @@ export default function Search({articles}) {
       {results.length === 0 && <p>No articles found.</p>}
 
       <ul className={styles.searchResult}>
-        {results.slice(0,5).map((article) => (
+        {results.slice(0, 5).map(article => (
           <li key={article.id} style={{ marginBottom: "1rem" }}>
             <CiFileOn size={50} />
-            <Link href={'/article/'+article.slug}>
-                <h3>{article.title}</h3>
-                <p>{article.excerpt.slice(0,90) + '....' || article.content.slice(0, 100) + "..."}</p>
+            <Link href={'/article/' + article.slug}>
+              <h3>{article.title}</h3>
+              <p>{article.excerpt ? "..." :  "..."}</p>
             </Link>
           </li>
         ))}

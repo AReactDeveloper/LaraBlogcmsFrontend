@@ -8,6 +8,7 @@ import styles from './singleArticle.module.scss';
 import Image from "next/image";
 import Link from 'next/link';
 import { editorJsToHtml } from "@/app/utils/editorToHtml";
+import { timeAgo } from "@/app/utils/timeAgo";
 
 export default function SingleArticle({
   title,
@@ -19,11 +20,10 @@ export default function SingleArticle({
   updated_at
 }) {
   const createdDate = new Date(created_at);
-  const updatedDate = new Date(updated_at);
   const formatedDate = createdDate.toLocaleDateString('en-GB');
-  const updateTime = updatedDate.toLocaleDateString('en-GB');
+  const formatedUpdateDated = timeAgo(updated_at)
 
-  const getImageFromArticle = () => {
+  const getImageFromArticle = (content) => {
     try {
       const parsed = JSON.parse(content);
       const imageBlock = parsed.blocks.find(block => block.type === 'image');
@@ -35,7 +35,7 @@ export default function SingleArticle({
     }
     return '';
   };
-  const fallBackImgUrl = getImageFromArticle()
+  const fallBackImgUrl = getImageFromArticle(content)
   const finalImgUrl = imgUrl || fallBackImgUrl
 
   
@@ -44,7 +44,6 @@ export default function SingleArticle({
   if (typeof content === 'string') {
     try {
       const parsed = typeof content === 'string' ? JSON.parse(content) : content;
-      console.log(parsed)
       html = editorJsToHtml(content);
     } catch(e) {
       html = content; // fallback plain text
@@ -77,7 +76,7 @@ export default function SingleArticle({
           </span>
           <span>
             <MdOutlineSystemUpdateAlt />
-            Last Update: {updateTime}
+            Last Update: {formatedUpdateDated}
           </span>
         </div>
         <div className={styles.postTags}>
@@ -92,8 +91,8 @@ export default function SingleArticle({
         {imgUrl ? (
           <Image
           src={finalImgUrl} 
-          width={400}
-          height={400}
+          width={600}
+          height={600}
           alt={title}
           priority
           placeholder="blur"

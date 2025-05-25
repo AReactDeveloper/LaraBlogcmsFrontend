@@ -8,7 +8,7 @@ import CommentList from "@/app/(site)/components/default/ui/commentList/CommentL
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { data, error } = await getArticleBySlug(slug);
 
   if (error || !data) {
@@ -102,8 +102,6 @@ export default async function SinglePost({ params }) {
   const { slug } = await params;
   const {data , error} = await getArticleBySlug(slug);
 
-  console.log(data)
-
   if(error || !data){
     return(
       <div className="error-message">Faild to load article from server</div>
@@ -116,6 +114,7 @@ export default async function SinglePost({ params }) {
           <SingleArticle
             title={data.title}
             created_at={data.created_at}
+            updated_at={data.updated_at}
             category={data.category}
             tags={data.tags}
             imgUrl={data.imgUrl}
