@@ -5,10 +5,9 @@ import Spinner from '../../components/Utility/Spinner'
 import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 
+const MyEditor = dynamic(() => import('@/app/utils/Editor/MyEditor'), { ssr: false })
+
 export default function AddForm() {
-
-  const MyEditor = dynamic(() => import('@/app/utils/Editor/MyEditor'), { ssr: false })
-
 
   const [loading,setLoading] = useState(false)
   const [message,setMessage] = useState(null)
