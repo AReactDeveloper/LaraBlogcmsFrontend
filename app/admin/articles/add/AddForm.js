@@ -3,9 +3,11 @@ import React, { useState } from 'react'
 import postAddArticle from './AddAction'
 import Spinner from '../../components/Utility/Spinner'
 import { useRouter } from 'next/navigation'
-import MyEditor from '@/app/utils/Editor/MyEditor'
 
 export default function AddForm() {
+
+  const MyEditor = dynamic(() => import('@/app/utils/Editor/MyEditor'), { ssr: false })
+
 
   const [loading,setLoading] = useState(false)
   const [message,setMessage] = useState(null)
