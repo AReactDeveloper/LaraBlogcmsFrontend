@@ -13,16 +13,9 @@ const openSans = Open_Sans({
 export default async function Layout({ children , siteInfo }) {
 
   const { data: categories } = await getCategories();
-  console.log('categories:', categories); // ✅ Check if it's an array
-
   const { data: tags } = await getTags();
-  console.log('tags:', tags);
-
   const { data: articles } = await getArticles();
-  console.log('articles:', articles);
-
   const { data: pages } = await getPages();
-  console.log('pages:', pages);
 
   return (
     <span className={openSans.className}>

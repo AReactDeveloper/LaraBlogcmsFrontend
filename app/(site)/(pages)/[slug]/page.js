@@ -29,12 +29,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-export async function generateStaticParams() {
-  const data = await getPages();
-  const pages = data;
-  return pages.map((page) => ({ slug: page.slug }));
-}
-
 
 export default async function SinglePost({ params }) {
   const { slug } = await params;
