@@ -7,6 +7,8 @@ const EditorComponent = ({ setEditorOutput, content }) => {
   const holderRef = useRef(null);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;  // Prevent running on server
+
     if (!editorRef.current) {
       const editor = new EditorJS({
         holder: holderRef.current,
