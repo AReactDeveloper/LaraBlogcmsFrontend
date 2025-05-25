@@ -31,8 +31,7 @@ export async function generateMetadata({ params }) {
 
 export async function generateStaticParams() {
   const data = await getPages();
-  console.log(data)
-  const pages = data.data;
+  const pages = data;
   return pages.map((page) => ({ slug: page.slug }));
 }
 
