@@ -2,18 +2,23 @@
 import React, { useState } from 'react'
 import postAddArticle from './AddAction'
 import Spinner from '../../components/Utility/Spinner'
+import { useRouter } from 'next/navigation'
+import MyEditor from '@/app/utils/Editor/MyEditor'
 
 export default function AddForm() {
 
-  const [loading,setLoading] = useState(true)
+  const [loading,setLoading] = useState(false)
   const [message,setMessage] = useState(null)
   const [errorMsg,setErrorMsg] = useState(null)
+  const [editorOutput, setEditorOutput] = useState('');
+
+  const router = useRouter()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target)
-    const title = formData.get('title')?.trim() || ''
-    const content = formData.get('content')?.trim() || ''
+    const title = formData.get('title')
+    const content = formData.get('content')
     if(!title || !content){
       setErrorMsg('please fil in all required inputs')
       return
@@ -21,17 +26,14 @@ export default function AddForm() {
     try{
       setLoading(true);
       const result = await postAddArticle(formData); 
-      setLoading(false);
       setMessage(result);
+      router.push('/admin/articles')
+      setLoading(false);
       }catch(e){
         console.log(e)
         setErrorMsg('there was an error while Adding you article')
       }
   };
-  
-  if(loading){
-    <Spinner />
-  }
 
   return (
     <form className="formContainer" onSubmit={handleSubmit}>
@@ -47,13 +49,20 @@ export default function AddForm() {
 
       <div className="form-control">
         <label htmlFor="content">Article Content:</label>
-        <textarea
-          name="content"
-        />
+        <MyEditor setEditorOutput={setEditorOutput} />
+        <input type="hidden" value={editorOutput} name='content' />
       </div>
 
       
-      <button type="submit">Add Article</button>
-    </form>
+      <button type="submit">
+        {loading ? (
+          <>
+            Add Article <Spinner />
+          </>
+        ) : (
+          'Add Article'
+        )}
+      </button>    
+</form>
   )
 }

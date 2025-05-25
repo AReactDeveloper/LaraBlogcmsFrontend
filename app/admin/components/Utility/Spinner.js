@@ -19,6 +19,7 @@ export default function Spinner() {
           borderRadius: '50%',
           animation: 'spin 1s linear infinite',
           margin: 'auto',
+          display:'inline'
         }}
       />
     </div>

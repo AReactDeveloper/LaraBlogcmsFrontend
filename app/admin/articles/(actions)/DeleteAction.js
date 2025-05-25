@@ -3,17 +3,16 @@
 import createAxiosWithAuth from '@/app/lib/axiosServer';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
-export default async function postAddArticle(formData) {
+export default async function postDeleteAction(id) {
   try {
-    const data = Object.fromEntries(formData.entries());
     const axiosInstance = await createAxiosWithAuth(); 
-    await axiosInstance.post('/api/articles', data);
+    await axiosInstance.delete('/api/articles/' + id);
     revalidateTag('articles');
     revalidatePath('/blog')
     revalidatePath('/')
-    return 'Article Added succuefully';
+    return 'Article deleted succuefully';
   } catch (error) {
     console.error(error.response?.data || error.message); //axios return is weird
-    return 'Something went wrong while adding you article';
+    return 'Something went wrong while deleting your article';
   }
 }

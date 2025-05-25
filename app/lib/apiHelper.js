@@ -1,15 +1,16 @@
 import { unstable_cache } from 'next/cache';
-import axiosInstance from "./axios";
 
-const revalidationTime = 60 * 60;
+const revalidationTime = 60*60;
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '';
 
 // List all articles
 export const getArticles = unstable_cache(
   async () => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/articles');
-      resObj.data = response.data || [];
+      const response = await fetch(`${API_BASE}/api/articles`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json() || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -17,8 +18,8 @@ export const getArticles = unstable_cache(
     }
     return resObj;
   },
-  ['articles'], // unchanged, already dash style
-  { revalidate: revalidationTime } // cache for 1 hour
+  ['articles'],
+  { revalidate: revalidationTime }
 );
 
 // List all Pages
@@ -26,8 +27,9 @@ export const getPages = unstable_cache(
   async () => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/pages/');
-      resObj.data = response.data || [];
+      const response = await fetch(`${API_BASE}/api/pages/`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json() || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -35,8 +37,8 @@ export const getPages = unstable_cache(
     }
     return resObj;
   },
-  ['pages'], // unchanged, already dash style
-  { revalidate: revalidationTime } // cache for 1 hour
+  ['pages'],
+  { revalidate: revalidationTime }
 );
 
 // Get a single page by slug
@@ -44,8 +46,9 @@ export const getPageBySlug = unstable_cache(
   async (slug) => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/pages/' + slug);
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/pages/${slug}`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -53,8 +56,8 @@ export const getPageBySlug = unstable_cache(
     }
     return resObj;
   },
-  (slug) => [`article-${slug}`], // updated tag format
-  { revalidate: revalidationTime } // cache for 1 hour
+  (slug) => [`article-${slug}`],
+  { revalidate: revalidationTime }
 );
 
 // Get a single article by slug
@@ -62,8 +65,9 @@ export const getArticleBySlug = unstable_cache(
   async (slug) => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/articles/' + slug);
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/articles/${slug}`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -71,19 +75,18 @@ export const getArticleBySlug = unstable_cache(
     }
     return resObj;
   },
-  (slug) => [`article-${slug}`], // updated tag format
-  { revalidate: revalidationTime } // cache for 1 hour
+  (slug) => [`article-${slug}`],
+  { revalidate: revalidationTime }
 );
-
-
 
 // Get a list of all categories
 export const getCategories = unstable_cache(
   async () => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/categories/');
-      resObj.data = response.data || [];
+      const response = await fetch(`${API_BASE}/api/categories/`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json() || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -91,8 +94,8 @@ export const getCategories = unstable_cache(
     }
     return resObj;
   },
-  ['categories'], // unchanged, dash style already
-  { revalidate: revalidationTime } // cache for 1 hour
+  ['categories'],
+  { revalidate: revalidationTime }
 );
 
 // Get a list of all tags
@@ -100,8 +103,9 @@ export const getTags = unstable_cache(
   async () => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/tags/');
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/tags/`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -109,8 +113,8 @@ export const getTags = unstable_cache(
     }
     return resObj;
   },
-  ['tags'], // unchanged, dash style already
-  { revalidate: revalidationTime } // cache for 1 hour
+  ['tags'],
+  { revalidate: revalidationTime }
 );
 
 // Get tag by title
@@ -118,8 +122,9 @@ export const getTagByTitle = unstable_cache(
   async (title) => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/tags/' + title);
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/tags/${title}`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -127,8 +132,8 @@ export const getTagByTitle = unstable_cache(
     }
     return resObj;
   },
-  (title) => [`tag-${title}`], // updated tag format
-  { revalidate: revalidationTime } // cache for 1 hour
+  (title) => [`tag-${title}`],
+  { revalidate: revalidationTime }
 );
 
 // Get category by title
@@ -136,8 +141,9 @@ export const getCategoryByTitle = unstable_cache(
   async (title) => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/categories/' + title);
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/categories/${title}`);
+      if (!response.ok) throw new Error(await response.text());
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -145,8 +151,8 @@ export const getCategoryByTitle = unstable_cache(
     }
     return resObj;
   },
-  (title) => [`category-${title}`], // updated tag format
-  { revalidate: revalidationTime } // cache for 1 hour
+  (title) => [`category-${title}`],
+  { revalidate: revalidationTime }
 );
 
 // Get siteInfo
@@ -154,8 +160,8 @@ export const getSiteInfo = unstable_cache(
   async () => {
     const resObj = { data: {}, error: '', loading: true };
     try {
-      const response = await axiosInstance.get('/api/settings/');
-      resObj.data = response.data;
+      const response = await fetch(`${API_BASE}/api/settings/`);
+      resObj.data = await response.json();
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -163,6 +169,6 @@ export const getSiteInfo = unstable_cache(
     }
     return resObj;
   },
-  ['site-info'], // updated from 'siteInfo' to dash style 'site-info'
-  { revalidate: revalidationTime } // cache for 1 minute
+  ['site-info'],
+  { revalidate: revalidationTime }
 );

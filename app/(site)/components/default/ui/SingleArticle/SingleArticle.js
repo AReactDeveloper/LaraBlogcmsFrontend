@@ -7,6 +7,7 @@ import { TbCategory2 } from "react-icons/tb";
 import styles from './singleArticle.module.scss';
 import Image from "next/image";
 import Link from 'next/link';
+import { editorJsToHtml } from "@/app/utils/editorToHtml";
 
 export default function SingleArticle({
   title,
@@ -21,6 +22,21 @@ export default function SingleArticle({
   const updatedDate = new Date(updated_at);
   const formatedDate = createdDate.toLocaleDateString('en-GB');
   const updateTime = updatedDate.toLocaleDateString('en-GB');
+
+  let html = '';
+  if (typeof content === 'string') {
+    try {
+      html = editorJsToHtml(content);
+      console.log(html)
+    } catch(e) {
+      console.log(e)
+      html = content; // fallback plain text
+    }
+  } else if (typeof content === 'object') {
+    html = editorJsToHtml(content);
+  } else {
+    html = content || '';
+  }
 
   
   return (
@@ -67,7 +83,7 @@ export default function SingleArticle({
         />
       </div>
       <div className={styles.postContent}>
-        {content}
+        <div dangerouslySetInnerHTML={{ __html: html }} />
       </div>
       </>
   );

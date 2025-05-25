@@ -5,9 +5,8 @@ export default async function Blog() {
   const { data: articles , loading : articleLoading} = await getArticles();
   const { data: siteInfo} = await getSiteInfo();
 
-
   const articlePerPage = siteInfo?.articlesPerPage || 8;
-
+  
   return (
     <main className="blog-wrapper">
       <ArticleList

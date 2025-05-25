@@ -6,7 +6,6 @@ import Skeleton from 'react-loading-skeleton';
 import { IoGrid } from "react-icons/io5";
 import { CiBoxList } from "react-icons/ci";
 
-
 export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDescription,loading}) {
 
   const [isGrid,setIsGrid] = useState(false)
@@ -59,12 +58,14 @@ export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDes
 
   return (
     <>
+   
     <div className={styles.ArticleList}>
       <div className={styles.ArticleListHead}>
         <div>
           <h1>{pageTitle}</h1>
           <p>{pageDescription}</p>
         </div>
+        
         <div className={styles.ArticleListHeadActions}>
           <button onClick={()=>setIsGrid(true)}><IoGrid  size={24} /></button>
           <button onClick={()=>setIsGrid(false)}><CiBoxList size={24} /></button>
