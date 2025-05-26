@@ -25,7 +25,7 @@ export default function AddForm() {
   const [fileLoading, setFileLoading] = useState(false)
   const [categories, setCategories] = useState([])
   const [tags, setTags] = useState([])
-  const [selectedCategory, setSelectedCategory] = useState(0)
+  const [selectedCategory, setSelectedCategory] = useState([0]) //default option uncategorized
   const [selectedTags, setSelectedTags] = useState([])
 
   const [catLoading,setCatLoading] = useState(false)
@@ -69,8 +69,8 @@ export default function AddForm() {
       title: title,
       content: editorOutput,
       category_id: selectedCategory.value,
-      imgUrl  : tbuFile,
-      tags: selectedTags.map(tag=>tag.label),
+      imgUrl  : tbuFile || null,
+      tags: selectedTags.map(tag=>tag.label) || null, 
     };
 
     console.log(selectedTags.map(tag=>tag.label))

@@ -79,6 +79,7 @@ export default function ArticlesTable() {
             <th><input type="checkbox" /></th>
             <th>Title</th>
             <th>Author</th>
+            <th>featured</th>
             <th>Categories</th>
             <th>Tags</th>
             <th>Date</th>
@@ -119,6 +120,7 @@ export default function ArticlesTable() {
                   </div>
                 </td>
                 <td>admin</td>
+                <td><img src={article.imgUrl || '/default.jpg'} width={120} /></td>
                 <td><Link target="__blank" href={`/category/${article?.category?.title ?? "#"}`}>{article?.category?.title || "—"}</Link></td>
                 <td>
                   {article?.tags?.length > 0 ? (

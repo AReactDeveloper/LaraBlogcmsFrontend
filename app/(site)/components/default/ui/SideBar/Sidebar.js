@@ -36,7 +36,7 @@ export default function Sidebar({categories,tags,pages}) {
         <div className={styles.WidgetContent}>
           <div className={styles.WidgetList}>
               {categories?.map(cat=>{
-                return <Link href={'/category/'+cat.title} key={cat.id} >{cat.title}</Link>
+                return <Link href={'/category/'+cat.title} key={cat.id} prefetch={true} >{cat.title}</Link>
               })}
           </div>
         </div>
@@ -49,7 +49,7 @@ export default function Sidebar({categories,tags,pages}) {
         <div className={styles.WidgetContent}>
           <div className={styles.WidgetCloud}>
               {tags?.map(tag=>{
-                return <Link key={tag.id} href={'/tags/'+ tag.title}>{tag.title}</Link>
+                return <Link key={tag.id} href={'/tags/'+ tag.title} prefetch={true}>{tag.title}</Link>
               })}
           </div>
         </div>
@@ -62,7 +62,7 @@ export default function Sidebar({categories,tags,pages}) {
         <div className={styles.WidgetContent}>
           <div className={styles.WidgetList}>
               {pages?.map(page=>{
-                return <Link href={'/'+page.slug} key={page.id} >{page.title}</Link>
+                return <Link href={'/'+page.slug} key={page.id} prefetch={true}>{page.title}</Link>
               })}
           </div>
         </div>
