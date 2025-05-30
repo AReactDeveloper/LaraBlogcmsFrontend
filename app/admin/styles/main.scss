@@ -342,3 +342,13 @@ td input[type="checkbox"] {
     transform: translateY(0);
   }
 }
+
+
+.btnLink{
+  all: unset;
+  cursor: pointer;
+  color: #0073aa;
+  &:hover{
+    text-decoration: underline;
+  }
+}
