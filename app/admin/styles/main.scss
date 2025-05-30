@@ -104,7 +104,7 @@ body, html {
 
 /* Success and error messages */
 .success,
-.error {
+.error,.qMsg {
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
@@ -116,6 +116,12 @@ body, html {
   background-color: #e6ffed;
   color: #1a7f37;
   border: 1px solid #a0d9af;
+}
+
+.qMsg {
+  background-color: #e6ffed;
+  color: #3d5eca;
+  border: 1px solid #d2d4f8;
 }
 
 .error {

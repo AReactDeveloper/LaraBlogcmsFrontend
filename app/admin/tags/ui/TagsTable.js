@@ -3,12 +3,12 @@
 import axiosInstance from "@/app/lib/axios"
 import { React, useEffect, useState } from "react"
 import Spinner from "../../components/Utility/Spinner"
-import deleteCategory from "../(Actions)/deleteCategory"
 import Modal from "@/app/(site)/components/default/ui/Modal/Modal"
-import EditCategory from "./EditCategory"
+import deleteTag from "../(Actions)/deleteTag"
+import EditTag from "./EditTag"
 
-export default function CategoriesTable() {
-  const [categories, setCategories] = useState([])
+export default function TagsTable() {
+  const [tags, setTags] = useState([])
   const [loading, setLoading] = useState(false)
   const [intialCount,setIntialCount] = useState(5)
   const [message,setMessage] = useState('')
@@ -17,34 +17,34 @@ export default function CategoriesTable() {
 
   const [currentEdit,setCurrentEdit] = useState()
 
-  // Get categories
+  // Get tags
   useEffect(() => {
-    const getCats = async () => {
+    const getTags = async () => {
       try {
         setLoading(true)
-        const res = await axiosInstance.get('/api/categories')
+        const res = await axiosInstance.get('/api/tags')
         if (res) {
-          setCategories(res.data)
+          setTags(res.data)
         }
       } catch (e) {
         console.log(e)
-        setCategories([])
+        setTags([])
       } finally {
         setLoading(false)
       }
     }
-    getCats()
+    getTags()
   }, [])
 
-  const handleCategoryDelete  = async(id) =>{
+  const handleTagDelete  = async(id) =>{
     setLoading(true)
     //reset
     setMessage('')
     setError('')
-    const res = await deleteCategory(id)
+    const res = await deleteTag(id)
     if(res.statusCode == 200){
       setMessage(res.message)
-      setCategories(prev => prev.filter(cat => cat.id !== id)) // Remove deleted item
+      setTags(prev => prev.filter(tag => tag.id !== id)) // Remove deleted item
     }
     if(res.statusCode == 400){
       setError(res.message)
@@ -59,12 +59,12 @@ export default function CategoriesTable() {
   return (
     <>
     <Modal title={'Edit'} isOpen={editOpen}  onClose={()=>setEditOpen(false)}>
-      <EditCategory  currentEdit={currentEdit ?? currentEdit} />
+      <EditTag  currentEdit={currentEdit ?? currentEdit} />
     </Modal>
     {message && <div className='success'>{message} <button className='btnLink' onClick={()=>setMessage('')}>X</button></div>}
     {error && <div className='error'>{error} <button className='btnLink' onClick={()=>setError('')}>X</button></div>}
     <div>
-      <h3>Categories List :</h3>
+      <h3>Tags List :</h3>
       <table>
         <thead>
           <tr>
@@ -74,34 +74,34 @@ export default function CategoriesTable() {
           </tr>
         </thead>
         <tbody>
-          {categories.length > 0 ? (
-            categories?.slice(0,intialCount).map((cat) => (
-              <tr key={cat.id}>
+          {tags.length > 0 ? (
+            tags?.slice(0,intialCount).map((tag) => (
+              <tr key={tag.id}>
                 <td><input type="checkbox" /></td>
                 <td>
-                  <a href="#" className="post-title">{cat.title}</a>
+                  <a href="#" className="post-title">{tag.title}</a>
                   <div className="row-actions">
                     <button onClick={()=>{
                       setEditOpen(true)
-                      setCurrentEdit(cat)
+                      setCurrentEdit(tag)
                     }} className='btnLink'><span>edit</span></button>
-                    <button onClick={()=>handleCategoryDelete(cat.id)} className='btnLink'><span>trash</span></button>
+                    <button onClick={()=>handleTagDelete(tag.id)} className='btnLink'><span>trash</span></button>
                   </div>
                 </td>
-                <td>{cat.description ? cat.description?.slice(0,50) + '...' : 'no description'}</td>
+                <td>{tag.description ? tag.description?.slice(0,50) + '...' : 'no description'}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="3">No categories found.</td>
+              <td colSpan="3">No Tags found.</td>
             </tr>
           )}
         </tbody>
       </table>
-      {intialCount < categories.length && (
+      {intialCount < tags.length && (
         <button className='btnLink' onClick={() => setIntialCount(prev => prev + intialCount)}>Load More</button>
       )}
-      {intialCount >= categories.length ? (
+      {intialCount >= tags.length ? (
         <button className='btnLink' onClick={()=>setIntialCount(5)}>reset</button>
       ) : ''}
     </div>

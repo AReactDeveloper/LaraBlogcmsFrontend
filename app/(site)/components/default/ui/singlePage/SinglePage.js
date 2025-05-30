@@ -6,12 +6,8 @@ export default function SinglePage({
   title,
   content,
 }) { 
-  let html
-  if(typeof content === 'object' && content.blocks){
-    html = editorJsToHtml(content)
-  }else{
-    html = content
-  }
+
+  const html = editorJsToHtml(content)
 
   return (
       <div className={styles.singlePage}>

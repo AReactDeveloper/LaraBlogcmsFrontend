@@ -1,0 +1,28 @@
+.categoriesWrapper {
+
+    &Head{
+      margin-bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+
+      & h1{
+        margin-bottom: rem !important;
+      }
+    }
+
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+
+
+
+    &Form {
+      background-color: transparent;
+    }
+  
+    &Table {
+      padding: 0.2rem;
+      background-color: transparent;
+    }
+  }
+  
