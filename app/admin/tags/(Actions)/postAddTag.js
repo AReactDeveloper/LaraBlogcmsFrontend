@@ -19,10 +19,10 @@ export default async function postAddTag(data) {
       message: 'Tag added successfully',
     };
   } catch (error) {
-    console.error('Error submitting Tag:', error);
-    return {
-      statusCode: 400,
-      message: 'There was a problem submitting the Tag. Please try again later.',
-    };
+    if (error.response && error.response.data && error.response.data.message) {
+      console.error('Error submitting Tag:', error.response.data.message);
+    } else {
+      console.error('Error submitting Tag:', error.message);
+    }
   }
 }
