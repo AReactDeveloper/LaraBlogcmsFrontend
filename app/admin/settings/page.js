@@ -1,9 +1,10 @@
 import SettingsForm from "./components/SettingsForm";
 
 export const metadata = {
-  title: 'Settings Page',
-  description: '',
+  title: 'Global Settings | Admin Dashboard',
+  description: 'Manage, create, and edit your Static Pages in the admin dashboard.'
 }
+
 
 
 export default function SettingsPage() {

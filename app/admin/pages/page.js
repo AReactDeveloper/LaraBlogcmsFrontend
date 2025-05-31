@@ -3,6 +3,11 @@ import PagesTable from './ui/PagesTable'
 import { IoIosAddCircle } from 'react-icons/io'
 import Link from 'next/link'
 
+export const metadata = {
+  title: 'Static Pages | Admin Dashboard',
+  description: 'Manage, create, and edit your Static Pages in the admin dashboard.'
+}
+
 export default function page() {
   return (
     <div>

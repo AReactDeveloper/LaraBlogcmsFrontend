@@ -37,19 +37,16 @@ export default function CategoriesTable() {
   }, [])
 
   const handleCategoryDelete  = async(id) =>{
-    setLoading(true)
-    //reset
-    setMessage('')
+    setCategories(prev => prev.filter(cat => cat.id !== id)) // Remove deleted item
+    setMessage('deleting ...')
     setError('')
     const res = await deleteCategory(id)
     if(res.statusCode == 200){
       setMessage(res.message)
-      setCategories(prev => prev.filter(cat => cat.id !== id)) // Remove deleted item
     }
     if(res.statusCode == 400){
       setError(res.message)
     }
-    setLoading(false)
   }
 
   if (loading) {
@@ -98,10 +95,10 @@ export default function CategoriesTable() {
           )}
         </tbody>
       </table>
-      {intialCount < categories.length && (
+      {intialCount <= categories.length && (
         <button className='btnLink' onClick={() => setIntialCount(prev => prev + intialCount)}>Load More</button>
       )}
-      {intialCount >= categories.length ? (
+      {categories.length > intialCount ? (
         <button className='btnLink' onClick={()=>setIntialCount(5)}>reset</button>
       ) : ''}
     </div>

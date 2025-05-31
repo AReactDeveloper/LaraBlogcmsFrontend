@@ -8,18 +8,13 @@ export const login = async (email, password) => {
   const resObj = { data: null, error: null };
 
   try {
-    await axiosInstance.get('/sanctum/csrf-cookie');
     const response = await axiosInstance.post('/api/login', { email, password });
-
     resObj.data = response.data;
-
-    // Return token to be stored in cookies by the caller
-    return resObj;
-
   } catch (error) {
     resObj.error = error.response?.data || 'Login failed';
-    return resObj;
   }
+
+  return resObj;
 };
 
 /**

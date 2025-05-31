@@ -1,22 +1,17 @@
 import { unstable_cache } from 'next/cache';
+import axiosInstance from './axios';
 
-const revalidationTime = 60*60;
-const API_BASE = process.env.NEXT_PUBLIC_API_URL;
-
-// Helper to standardize fetch options
-const fetchOptions = {
-  headers: { 'Accept': 'application/json' },
-  credentials: 'include', // remove this line if your API does not use cookies/auth
-};
+const revalidationTime = 3600;
 
 // List all articles
 export const getArticles = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/articles`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = (await response.json()) || [];
+      const res = await axiosInstance.get('/api/articles')
+      if(res){
+        resObj.data = res.data
+      }
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -33,9 +28,8 @@ export const getPages = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/pages`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = (await response.json()) || [];
+      const response = await axiosInstance.get('/api/pages');
+      resObj.data = response.data || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -52,9 +46,8 @@ export const getPageBySlug = unstable_cache(
   async (slug) => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/pages/${slug}`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get(`/api/pages/${slug}`);
+      resObj.data = response.data;
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -62,7 +55,7 @@ export const getPageBySlug = unstable_cache(
     }
     return resObj;
   },
-  (slug) => [`article-${slug}`],
+  (slug) => [`page-${slug}`],
   { revalidate: revalidationTime }
 );
 
@@ -71,9 +64,8 @@ export const getArticleBySlug = unstable_cache(
   async (slug) => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/articles/${slug}`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get(`/api/articles/${slug}`);
+      resObj.data = response.data;
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -90,9 +82,8 @@ export const getCategories = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/categories`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = (await response.json()) || [];
+      const response = await axiosInstance.get('/api/categories');
+      resObj.data = response.data || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -109,9 +100,8 @@ export const getTags = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/tags`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get('/api/tags');
+      resObj.data = response.data || [];
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -128,9 +118,8 @@ export const getTagByTitle = unstable_cache(
   async (title) => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/tags/${title}`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get(`/api/tags/${title}`);
+      resObj.data = response.data;
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -147,9 +136,8 @@ export const getCategoryByTitle = unstable_cache(
   async (title) => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/categories/${title}`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get(`/api/categories/${title}`);
+      resObj.data = response.data;
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {
@@ -166,9 +154,8 @@ export const getSiteInfo = unstable_cache(
   async () => {
     const resObj = { data: [], error: '', loading: true };
     try {
-      const response = await fetch(`${API_BASE}/api/settings`, fetchOptions);
-      if (!response.ok) throw new Error(await response.text());
-      resObj.data = await response.json();
+      const response = await axiosInstance.get('/api/settings');
+      resObj.data = response.data;
     } catch (error) {
       resObj.error = error?.message || 'Unknown error';
     } finally {

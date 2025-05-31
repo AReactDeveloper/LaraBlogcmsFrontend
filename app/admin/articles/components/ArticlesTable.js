@@ -50,13 +50,12 @@ export default function ArticlesTable() {
   // Delete handler
   const handleArticleDelete = async (id) => {
     if (!confirm("Do you want to delete this article?")) return;
+    setArticles(prev => prev.filter(article => article.id !== id));
     setMessage("Deleting...");
 
     try {
       const response = await postDeleteAction(id);
       if (response) {
-        // Remove deleted article from UI
-        setArticles(prev => prev.filter(article => article.id !== id));
         setMessage("Article deleted successfully.");
       }
     } catch (error) {
@@ -104,7 +103,6 @@ export default function ArticlesTable() {
                   </a>
                   <div className="row-actions">
                     <span><Link href={'/admin/articles/edit/' + article?.slug} >Edit</Link></span>
-                    <span><a href="#" onClick={e => e.preventDefault()}>Quick Edit</a></span>
                     <span>
                       <a
                         href="#"

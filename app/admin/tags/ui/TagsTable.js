@@ -37,19 +37,17 @@ export default function TagsTable() {
   }, [])
 
   const handleTagDelete  = async(id) =>{
-    setLoading(true)
     //reset
-    setMessage('')
+    setTags(prev => prev.filter(tag => tag.id !== id)) // Remove deleted item
+    setMessage('deleting ...')
     setError('')
     const res = await deleteTag(id)
     if(res.statusCode == 200){
       setMessage(res.message)
-      setTags(prev => prev.filter(tag => tag.id !== id)) // Remove deleted item
     }
     if(res.statusCode == 400){
       setError(res.message)
     }
-    setLoading(false)
   }
 
   if (loading) {

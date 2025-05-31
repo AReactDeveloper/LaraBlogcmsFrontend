@@ -3,9 +3,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Articles Page",
-  description: "Here you can manage, create, and edit your articles.",
-};
+  title: 'Articles | Admin Dashboard',
+  description: 'Manage, create, and edit your articles in the admin dashboard.'
+}
+
 
 export default function ArticlesPage() {
   return (

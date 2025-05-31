@@ -1,6 +1,11 @@
 import React from 'react'
 import FileGrid from './ui/FileGrid'
 
+export const metadata = {
+  title: 'Files | Admin Dashboard',
+  description: 'Manage, create, and edit your files in the admin dashboard.'
+}
+
 export default function page() {
   return (
     <>

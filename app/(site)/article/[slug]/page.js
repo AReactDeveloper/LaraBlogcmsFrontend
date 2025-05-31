@@ -1,10 +1,8 @@
 'use server'
 import SingleArticle from "@/app/(site)/components/default/ui/SingleArticle/SingleArticle";
 import { getArticleBySlug, getArticles } from "@/app/lib/apiHelper";
-import { Suspense } from "react";
 import styles from './singlePost.module.scss'
 import CommentList from "@/app/(site)/components/default/ui/commentList/CommentList";
-
 
 
 export async function generateMetadata({ params }) {
@@ -13,7 +11,7 @@ export async function generateMetadata({ params }) {
 
   if (error || !data) {
     return {
-      title: 'Article not found | Blog',
+      title: 'Article not found | Blog', 
       description: 'No article found with this slug.',
       openGraph: {
         title: 'Article not found',
@@ -110,7 +108,6 @@ export default async function SinglePost({ params }) {
   return (
     <>
       <div className={styles.singlePost}>
-        <Suspense fallback={'loading...'}>
           <SingleArticle
             title={data.title}
             created_at={data.created_at}
@@ -120,10 +117,7 @@ export default async function SinglePost({ params }) {
             imgUrl={data.imgUrl}
             content={data.content}
           />
-        </Suspense>
-        <Suspense fallback={'loading...'}>
           <CommentList slug={data.slug} articleId={data.id} comments={data.comments || []} />
-        </Suspense>
       </div>
     </>
   );

@@ -1,6 +1,7 @@
 import { login } from "@/app/lib/authHelper";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers"; // import this to set cookies
+import axiosInstance from "@/app/lib/axios";
 
 export default async function LoginPage() {
 

@@ -64,10 +64,12 @@ export default function AddForm() {
   
     const formData = new FormData(e.target);
     const title = formData.get('title');
+    const excerpt = formData.get('excerpt');
   
     const articleData = {
       title: title,
       content: editorOutput,
+      excerpt : excerpt,
       category_id: selectedCategory.value,
       imgUrl  : tbuFile || null,
       tags: selectedTags.map(tag=>tag.label) || null, 
@@ -225,6 +227,11 @@ export default function AddForm() {
               isDisabled={tagLoading}
               value={selectedTags}
             />
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="excerpt">Excerpt:</label>
+            <textarea name="excerpt" id="excerpt"  />
           </div>
 
         </div>

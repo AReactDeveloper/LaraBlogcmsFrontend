@@ -26,7 +26,7 @@ export default function ArticleCardList({article , isGrid}) {
         <div className={styles.ArticleCardDetails}>
           <h2><Link href={'/article/' + article.slug} prefetch={true}>{article.title}</Link></h2>
           <p>{article.excerpt || firstParagraph?.data?.text.slice(1,150) + '....' || ''}</p>
-          <p className={styles.ArticleCardDetailsLink}><Link href={'/article/' + article.slug}>Read More</Link></p>
+          <p className={styles.ArticleCardDetailsLink}><Link prefetch={true} href={'/article/' + article.slug}>Read More</Link></p>
         </div>
     </div>
   )

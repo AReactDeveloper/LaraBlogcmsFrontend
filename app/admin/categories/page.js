@@ -2,6 +2,11 @@ import CategoriesTable from './ui/CategoriesTable'
 import styles from './styles/categoriesStyles..module.scss'
 import AddCategoryForm from './ui/AddCategoryForm'
 
+export const metadata = {
+  title: 'Categories | Admin Dashboard',
+  description: 'Manage, create, and edit your Categories in the admin dashboard.'
+}
+
 export default function page() {
   return (
     <>

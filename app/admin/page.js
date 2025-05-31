@@ -1,6 +1,3 @@
-import { getUser } from "../lib/authHelper"
-
-
 export default async function page() {
 
   return (

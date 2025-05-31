@@ -22,6 +22,7 @@ export default function SettingsForm() {
     };
 
     fetchData();
+    console.log(loading)
   }, []);
 
   useEffect(() => {
@@ -37,19 +38,26 @@ export default function SettingsForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    try{
       setLoading(true);
-      const formData = new FormData(event.target);
-      const result = await postToSettings(formData); 
-      const res = await axiosInstance.get('/api/settings/');
-      setSiteInfo(res.data);
-      setLoading(false);
-      setMessage(result);
-      
-      }catch(e){
-        console.log(e)
-        setErrorMsg('there was an error while updating site info')
+      const form = event.target;
+      const data = {
+        siteName: form.siteName.value,
+        siteDescription: form.siteDescription.value,
+        sitePostsPerPage: Number(form.sitePostsPerPage.value),
+      };
+      const res = await postToSettings(data); 
+      if(res.statusCode == 200){
+        const siteInfo = await axiosInstance.get('/api/settings/');
+        setSiteInfo(siteInfo.data);
+        setErrorMsg('')
+        setMessage(res.message);
       }
+      if(res.statusCode == 400){
+        setMessage('')
+        setErrorMsg(res.message)
+      }
+      setLoading(false);
+
   };
 
   if (loading) return <Spinner />;

@@ -29,6 +29,8 @@ export default function EditForm({slug}) {
   const [selectedCategory, setSelectedCategory] = useState([0]) //default option uncategorized
   const [selectedTags, setSelectedTags] = useState([])
 
+  const [excerpt, setExcerpt] = useState('')
+
   const [article,setArticle] = useState({})
 
   const [catLoading,setCatLoading] = useState(false)
@@ -47,6 +49,7 @@ export default function EditForm({slug}) {
             const data = res.data
     
             setArticle(data)
+            setExcerpt(data.excerpt || '')
 
             setTbuFile(data.imgUrl || null)
             setEditorOutput(data.content || '')
@@ -108,6 +111,7 @@ export default function EditForm({slug}) {
     const articleData = {
       title: title,
       content: editorOutput,
+      excerpt: excerpt,
       category_id: selectedCategory.value,
       imgUrl  : tbuFile || null,
       tags: selectedTags.map(tag=>tag.label) || null, 
@@ -269,6 +273,11 @@ export default function EditForm({slug}) {
               isDisabled={tagLoading}
               value={selectedTags}
             />
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="excerpt">Excerpt:</label>
+            <textarea name="excerpt" id="excerpt" value={excerpt} onChange={(e)=>setExcerpt(e.target.value)} />
           </div>
 
         </div>
