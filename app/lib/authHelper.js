@@ -35,13 +35,7 @@ export const getUser = async () => {
  */
 export const logOut = async () => {
   try {
-    // Notify backend to invalidate session/token
     await axiosInstance.post('/api/logout');
-
-    // Destroy token cookie (client-side only)
-    if (typeof window !== 'undefined') {
-      document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
-    }
 
     return { success: true };
   } catch (error) {

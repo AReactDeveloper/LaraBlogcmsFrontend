@@ -10,7 +10,11 @@ export default async function AddPageAction(data) {
 
     // Revalidate cache
     revalidateTag('pages');
+    revalidateTag('articles');
+    revalidateTag('categories');
+    revalidateTag('tags');
     revalidatePath('/');
+    revalidatePath('/blog');
 
     return {
       statusCode: 200,

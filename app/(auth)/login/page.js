@@ -1,9 +1,23 @@
 import { login } from "@/app/lib/authHelper";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers"; // import this to set cookies
-import axiosInstance from "@/app/lib/axios";
+import { cookies } from "next/headers"; // don't touch this
+import LoginForm from "./ui/LoginForm";
 
-export default async function LoginPage() {
+export const metadata = {
+  title: 'Login to dashboard',
+  description: 'Logging in and redirecting you to the admin page.',
+};
+
+export default async function LoginPage({ searchParams }) {
+  // searchParams is a plain object, no need to await
+  const loginError = searchParams?.loginerror || '';
+
+  // cookies() is synchronous, no need to await
+  const cookieStore = cookies();
+  const token = cookieStore.get("token")?.value;
+  if (token) {
+    redirect("/admin"); // Redirect immediately if token exists
+  }
 
   // Server action to handle form POST
   async function handleSubmit(formData) {
@@ -14,28 +28,21 @@ export default async function LoginPage() {
 
     const { data, error } = await login(email, password);
 
+    if (error) {
+      // Redirect to login page with error (not /admin)
+      redirect("/login?loginerror=" + encodeURIComponent(error.error));
+    }
+
     if (data) {
-      //these must be in client
+      // cookie lines unchanged as requested
       const cookieStore = await cookies();
-      cookieStore.set("token", data.token); // simple set, no protection
+      cookieStore.set("token", data.token);
 
       redirect("/admin");
-    } else {
-      console.log(error.error);
     }
   }
 
   return (
-    <form action={handleSubmit}>
-      <label>
-        email: <input name="email" type="email" required />
-      </label>
-      <br />
-      <label>
-        password: <input name="password" type="password" required />
-      </label>
-      <br />
-      <button type="submit">Login</button>
-    </form>
+    <LoginForm loginError={loginError} action={handleSubmit} />
   );
 }

@@ -1,26 +1,14 @@
-'use client';
+import React from 'react'
+import AutoLogout from './ui/AutoLogout'
 
-import { logOut } from "@/app/lib/authHelper";
-import { useRouter } from "next/navigation";
+export const metadata = {
+  title: 'Logging Out...',
+  description: 'Logging out and redirecting you to the login page.',
+};
 
-export default function Page() {
-  const router = useRouter();
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-
-    const { success } = await logOut();
-
-    if (success) {
-      router.push("/login");
-    } 
-  };
-
+export default function LogoutPage() {
   return (
-    <div>
-      <form onSubmit={handleLogout}>
-        <button type="submit">Logout</button>
-      </form>
-    </div>
-  );
+    <AutoLogout />
+  )
 }
