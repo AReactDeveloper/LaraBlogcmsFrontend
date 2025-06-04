@@ -3,6 +3,7 @@ import { getSiteInfo } from "../lib/apiHelper";
 
 export async function generateMetadata() {
   const {data } = await getSiteInfo();
+
   const result = data;
 
   if(!data){

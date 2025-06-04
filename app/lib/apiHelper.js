@@ -157,6 +157,7 @@ export const getSiteInfo = unstable_cache(
       const response = await axiosInstance.get('/api/settings');
       resObj.data = response.data;
     } catch (error) {
+      console.log(process.env.NEXT_PUBLIC_API_URL)
       resObj.error = error?.message || 'Unknown error';
     } finally {
       resObj.loading = false;

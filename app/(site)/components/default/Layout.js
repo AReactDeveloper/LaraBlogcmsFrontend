@@ -2,13 +2,7 @@ import Navbar from "./ui/Navbar/Navbar"
 import Sidebar from "./ui/SideBar/Sidebar"
 import './styles/main.scss'
 
-import { Open_Sans } from 'next/font/google';
 import { getArticles, getCategories, getPages, getTags } from "@/app/lib/apiHelper";
-
-const openSans = Open_Sans({
-  subsets: ['latin'],
-  weight: ['400', '600'],
-});
 
 export default async function Layout({ children , siteInfo }) {
 
@@ -19,7 +13,7 @@ export default async function Layout({ children , siteInfo }) {
 
 
   return (
-    <span className={openSans.className}>
+    <>
       <Navbar articles={articles} siteName={siteInfo.siteName} />
       <div className="container">
         <main className='main-area'>
@@ -31,6 +25,6 @@ export default async function Layout({ children , siteInfo }) {
           />
         </main>
       </div>
-    </span>
+    </>
   );
 }
