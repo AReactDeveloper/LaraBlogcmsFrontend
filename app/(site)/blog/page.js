@@ -1,5 +1,15 @@
 import { getArticles, getSiteInfo } from "@/app/lib/apiHelper";
-import ArticleList from "../components/default/ui/ArticleList/ArticleList";
+
+import dynamic from "next/dynamic";
+
+const { data: siteInfo} = await getSiteInfo();
+
+const theme = siteInfo.siteTheme
+
+
+const ArticleList = dynamic(() => import(`../components/${theme}/ui/ArticleList/ArticleList`)); 
+
+console.log(siteInfo.siteTheme)
 
 export default async function Blog() {
   const { data: articles , loading : articleLoading} = await getArticles();

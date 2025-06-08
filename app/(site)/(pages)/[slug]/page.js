@@ -1,7 +1,12 @@
-import { getPageBySlug, getPages } from "@/app/lib/apiHelper";
+import { getPageBySlug, getSiteInfo } from "@/app/lib/apiHelper";
+import dynamic from "next/dynamic";
 import { Suspense } from "react";
-import SinglePage from "@/app/(site)/components/default/ui/singlePage/SinglePage";
 
+const { data: siteInfo} = await getSiteInfo();
+
+const theme = siteInfo.siteTheme || 'default'
+
+const SinglePage = dynamic(() => import(`@/app/(site)/components/${theme}/ui/singlePage/SinglePage`)); 
 
 
 export async function generateMetadata({ params }) {

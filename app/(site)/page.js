@@ -1,15 +1,14 @@
-import SlideShow from '@/app/(site)/components/default/ui/Home/slider/SlideShow'
-import { getArticles } from '../lib/apiHelper';
-import LatestArticles from './components/default/ui/Home/LatestArticles/LatestArticles';
+import dynamic from "next/dynamic";
+import { getSiteInfo } from "../lib/apiHelper";
 
-export default async function Page() {
+const { data: siteInfo} = await getSiteInfo();
 
-  const {data} = await getArticles()
+const theme = siteInfo.siteTheme
 
-  return (
-    <div>
-      <SlideShow articles={data.slice(0,5)}/>
-      <LatestArticles />
-    </div>
-  );
+console.log(theme)
+
+const Home = dynamic(() => import(`@/app/(site)/components/${theme}/ui/Home/Home`)); 
+
+export default function Page() {
+  return <Home />;
 }

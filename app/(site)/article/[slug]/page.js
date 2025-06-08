@@ -1,9 +1,14 @@
 'use server'
-import SingleArticle from "@/app/(site)/components/default/ui/SingleArticle/SingleArticle";
-import { getArticleBySlug, getArticles } from "@/app/lib/apiHelper";
-import styles from './singlePost.module.scss'
-import CommentList from "@/app/(site)/components/default/ui/commentList/CommentList";
+import { getArticleBySlug, getArticles, getSiteInfo } from "@/app/lib/apiHelper";
 
+import dynamic from "next/dynamic";
+
+const { data: siteInfo} = await getSiteInfo();
+
+const theme = siteInfo.siteTheme || 'default'
+
+const SingleArticle = dynamic(() => import(`@/app/(site)/components/${theme}/ui/SingleArticle/SingleArticle`)); 
+const CommentList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/commentList/CommentList`)); 
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -107,7 +112,6 @@ export default async function SinglePost({ params }) {
   }
   return (
     <>
-      <div className={styles.singlePost}>
           <SingleArticle
             title={data.title}
             created_at={data.created_at}
@@ -118,7 +122,6 @@ export default async function SinglePost({ params }) {
             content={data.content}
           />
           <CommentList slug={data.slug} articleId={data.id} comments={data.comments || []} />
-      </div>
     </>
   );
 }

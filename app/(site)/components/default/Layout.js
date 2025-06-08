@@ -1,6 +1,6 @@
 import Navbar from "./ui/Navbar/Navbar"
 import Sidebar from "./ui/SideBar/Sidebar"
-import './styles/main.scss'
+import './styles/main.default.scss'
 
 import { getArticles, getCategories, getPages, getTags } from "@/app/lib/apiHelper";
 
