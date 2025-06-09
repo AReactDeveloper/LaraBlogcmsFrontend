@@ -2,13 +2,6 @@ import { getPageBySlug, getSiteInfo } from "@/app/lib/apiHelper";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
 
-const { data: siteInfo} = await getSiteInfo();
-
-const theme = siteInfo.siteTheme || 'default'
-
-const SinglePage = dynamic(() => import(`@/app/(site)/components/${theme}/ui/singlePage/SinglePage`)); 
-
-
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const {data} = await getPageBySlug(slug);
@@ -37,6 +30,10 @@ export async function generateMetadata({ params }) {
 export default async function SinglePost({ params }) {
   const { slug } = await params;
   const {data} = await getPageBySlug(slug);
+
+  const { data: siteInfo} = await getSiteInfo();
+  const theme = siteInfo.siteTheme || 'default'
+  const SinglePage = dynamic(() => import(`@/app/(site)/components/${theme}/ui/singlePage/SinglePage`)); 
 
   if(!data){
     return(

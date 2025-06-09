@@ -1,14 +1,12 @@
 import dynamic from "next/dynamic";
 import { getSiteInfo } from "../lib/apiHelper";
 
-const { data: siteInfo} = await getSiteInfo();
 
-const theme = siteInfo.siteTheme
+export default async function Page() {
+  
+  const { data: siteInfo} = await getSiteInfo();
+  const theme = siteInfo.siteTheme
+  const Home = dynamic(() => import(`@/app/(site)/components/${theme}/ui/Home/Home`)); 
 
-console.log(theme)
-
-const Home = dynamic(() => import(`@/app/(site)/components/${theme}/ui/Home/Home`)); 
-
-export default function Page() {
   return <Home />;
 }

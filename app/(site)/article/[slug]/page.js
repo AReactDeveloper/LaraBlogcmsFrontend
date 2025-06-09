@@ -1,14 +1,7 @@
 'use server'
 import { getArticleBySlug, getArticles, getSiteInfo } from "@/app/lib/apiHelper";
-
 import dynamic from "next/dynamic";
 
-const { data: siteInfo} = await getSiteInfo();
-
-const theme = siteInfo.siteTheme || 'default'
-
-const SingleArticle = dynamic(() => import(`@/app/(site)/components/${theme}/ui/SingleArticle/SingleArticle`)); 
-const CommentList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/commentList/CommentList`)); 
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -104,6 +97,14 @@ export async function generateStaticParams() {
 export default async function SinglePost({ params }) {
   const { slug } = await params;
   const {data , error} = await getArticleBySlug(slug);
+
+  const { data: siteInfo} = await getSiteInfo();
+
+  const theme = siteInfo.siteTheme || 'default'
+
+  const SingleArticle = dynamic(() => import(`@/app/(site)/components/${theme}/ui/SingleArticle/SingleArticle`)); 
+  const CommentList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/commentList/CommentList`)); 
+
 
   if(error || !data){
     return(

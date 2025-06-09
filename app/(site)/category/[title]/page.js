@@ -2,13 +2,6 @@ import { getCategoryByTitle, getSiteInfo } from "@/app/lib/apiHelper";
 import dynamic from "next/dynamic";
 
 
-const { data: siteInfo} = await getSiteInfo();
-
-const theme = siteInfo.siteTheme || 'default'
-
-const ArticleList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/ArticleList/ArticleList`)); 
-
-
 export async function generateMetadata({ params }) {
   try {
     const { title } = await params;
@@ -38,6 +31,12 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function SingleCategory({ params }) {
+
+  const { data: siteInfo} = await getSiteInfo();
+  const theme = siteInfo.siteTheme || 'default'
+  const ArticleList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/ArticleList/ArticleList`)); 
+
+
   const ArticlePerPage = 8;
   const { title } = await params;
 
