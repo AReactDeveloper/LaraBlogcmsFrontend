@@ -112,7 +112,7 @@ export default async function SinglePost({ params }) {
     )
   }
   return (
-    <>
+    <div>
           <SingleArticle
             title={data.title}
             created_at={data.created_at}
@@ -123,7 +123,7 @@ export default async function SinglePost({ params }) {
             content={data.content}
           />
           <CommentList slug={data.slug} articleId={data.id} comments={data.comments || []} />
-    </>
+    </div>
   );
 }
 

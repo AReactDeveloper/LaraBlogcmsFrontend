@@ -73,6 +73,7 @@ export default function AddForm() {
       category_id: selectedCategory.value,
       imgUrl  : tbuFile || null,
       tags: selectedTags.map(tag=>tag.label) || null, 
+      isDraft:false
     };
 
     console.log(selectedTags.map(tag=>tag.label))

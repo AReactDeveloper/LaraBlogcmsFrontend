@@ -56,7 +56,7 @@ export default function SingleArticle({
 
   
   return (
-      <>
+      <div className={styles.singlePost}>
       <div className={styles.singlePostHead}>
         <h1>{title}</h1>
         <div className={styles.postMetaData}>
@@ -103,6 +103,6 @@ export default function SingleArticle({
       <div className={styles.postContent}>
         <div dangerouslySetInnerHTML={{ __html: html }} />
       </div>
-      </>
+      </div>
   );
 }
