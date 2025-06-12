@@ -1,6 +1,5 @@
 import { getSiteInfo } from "../lib/apiHelper";
-import { GoogleAnalytics } from '@next/third-parties/google'
-
+import { Analytics } from "@vercel/analytics/next"
 
 export async function generateMetadata() {
   const {data } = await getSiteInfo();
@@ -51,7 +50,7 @@ export default async function RootLayout({ children }) {
         <Layout siteInfo={data}>
           {children}
         </Layout>
-        <GoogleAnalytics gaId={process.env.NEXT_GOOGLE_ANALYTICS} />
+        <Analytics />
       </body>
     </html>
   );
