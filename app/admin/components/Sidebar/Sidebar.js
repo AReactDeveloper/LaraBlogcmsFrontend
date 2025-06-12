@@ -6,6 +6,7 @@ import { BiSolidCategory } from "react-icons/bi";
 import { FaTags , FaComments } from "react-icons/fa";
 import { FaGear } from "react-icons/fa6";
 import { LuFileSpreadsheet , LuFileSymlink  } from "react-icons/lu";
+import { IoMdAnalytics } from "react-icons/io";
 
 import Link from 'next/link'
 import styles from './sidebar.module.scss'
@@ -19,6 +20,7 @@ export default function Sidebar() {
     { href: '/admin/categories', icon: <BiSolidCategory />, label: 'Categories' },
     { href: '/admin/tags', icon: <FaTags />, label: 'Tags' },
     { href: '/admin/theme', icon: <RiLayout5Fill />, label: 'Theme' },
+    { href: '/admin/analytics', icon: <IoMdAnalytics />, label: 'Analytics' },
     { href: '/admin/pages', icon: <LuFileSpreadsheet />, label: 'Pages' },
     { href: '/admin/comments', icon: <FaComments />, label: 'Comments' },
     { href: '/admin/files', icon: <LuFileSymlink />, label: 'Files' },
@@ -28,7 +30,7 @@ export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <h2 className={styles.sidebarTitle}>Dashboard</h2>
-      <nav className={styles.nav}>
+      <nav className={styles.nav}>"You don't have permission to access this resource."
         {links.map( ({ href, icon, label } , i) => (
           <Link id={i} key={href} href={href} className={`${styles.navLink} ${pathname === href ? styles.active : ''}`}>
             {icon}

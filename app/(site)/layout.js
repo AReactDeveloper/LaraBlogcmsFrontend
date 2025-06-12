@@ -1,56 +1,65 @@
 import { getSiteInfo } from "../lib/apiHelper";
-import { Analytics } from "@vercel/analytics/next"
+import Script from "next/script"; // <-- Import next/script for Google Analytics
 
 export async function generateMetadata() {
-  const {data } = await getSiteInfo();
+  const { data } = await getSiteInfo();
 
-  const result = data;
-
-  if(!data){
+  if (!data) {
     return {
-      title : 'site name',
-      description : 'site description'
-    }
+      title: "site name",
+      description: "site description",
+    };
   }
 
   return {
-    title: result.siteName || 'Default Site Title',
-    description: result.siteDescription || 'Default site description',
+    title: data.siteName || "Default Site Title",
+    description: data.siteDescription || "Default site description",
   };
 }
 
 export default async function RootLayout({ children }) {
-  const {data , error } = await getSiteInfo();
-  const result = data;
+  const { data, error } = await getSiteInfo();
 
-  const theme = data.siteTheme;
-
-  const { default: Layout } = await import(`./components/${theme}/Layout`);
-
-  if(error){
-    return(
+  if (error) {
+    return (
       <html lang="en">
-      <body style={{display:'flex',placeContent:'center',minHeight:'100vh'}}>
-          <div className="error-message" style={{height:'fit-content'}}>
+        <body style={{ display: "flex", placeContent: "center", minHeight: "100vh" }}>
+          <div className="error-message" style={{ height: "fit-content" }}>
             <p>Failed to load resources from the server</p>
-            <p style={{ color: 'red' }}>{error}</p>  
+            <p style={{ color: "red" }}>{error}</p>
           </div>
-      </body>
-    </html>
-     
-    )
+        </body>
+      </html>
+    );
   }
 
-  
-
+  const theme = data.siteTheme;
+  const { default: Layout } = await import(`./components/${theme}/Layout`);
 
   return (
-    <html lang="en" >
+    <html lang="en">
+      <head>
+        {/* Google Analytics - replace G-XXXXXXXXXX with your real Measurement ID */}
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-QV9J04C4N7"
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-QV9J04C4N7');
+          `}
+        </Script>
+      </head>
       <body>
         <Layout siteInfo={data}>
           {children}
         </Layout>
-        <Analytics />
       </body>
     </html>
   );
