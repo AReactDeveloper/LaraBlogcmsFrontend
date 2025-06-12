@@ -14,7 +14,7 @@ export default function ArticlesTable() {
   const fetchArticles = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/articles`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/articles?isDraft=1`, { //get articles from server drafted ones too
         method: 'GET',
         cache: 'no-store',
         headers: {
@@ -32,9 +32,9 @@ export default function ArticlesTable() {
   };
   // Fetch articles
   useEffect(() => {
-
     fetchArticles();
   }, []);
+
 
   // Clear messages after 4s
   useEffect(() => {
@@ -81,6 +81,7 @@ export default function ArticlesTable() {
             <th>featured</th>
             <th>Categories</th>
             <th>Tags</th>
+            <th>Published</th>
             <th>Date</th>
           </tr>
         </thead>
@@ -133,6 +134,9 @@ export default function ArticlesTable() {
                   ) : (
                     "—"
                   )}
+                </td>
+                <td>
+                  {article.isDraft ? 'no' : 'yes'}
                 </td>
                 <td>
                   Published<br />

@@ -4,6 +4,7 @@ import createAxiosWithAuth from '@/app/lib/axiosServer';
 import { revalidatePath, revalidateTag } from 'next/cache';
 
 export default async function postAddArticle(data) {
+  console.log(data)
   try {
     const axiosInstance = await createAxiosWithAuth();
 

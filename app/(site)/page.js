@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
 import { getSiteInfo } from "../lib/apiHelper";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 
 export default async function Page() {
@@ -8,5 +9,8 @@ export default async function Page() {
   const theme = siteInfo.siteTheme
   const Home = dynamic(() => import(`@/app/(site)/components/${theme}/ui/Home/Home`)); 
 
-  return <Home />;
+  return <>
+          <GoogleAnalytics gaId={process.env.NEXT_GOOGLE_ANALYTICS} />
+          <Home />
+        </>;
 }

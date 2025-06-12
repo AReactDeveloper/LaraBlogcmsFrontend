@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useId, useState } from 'react'
+import React, { use, useEffect, useId, useState } from 'react'
 import postAddArticle from '../(actions)/AddAction'
 import Spinner from '../../components/Utility/Spinner'
 import { useRouter } from 'next/navigation'
@@ -27,6 +27,7 @@ export default function AddForm() {
   const [tags, setTags] = useState([])
   const [selectedCategory, setSelectedCategory] = useState([0]) //default option uncategorized
   const [selectedTags, setSelectedTags] = useState([])
+  const [isDraft,setIsDraft] = useState()
 
   const [catLoading,setCatLoading] = useState(false)
   const [tagLoading,setTagLoading] = useState(false)
@@ -34,6 +35,7 @@ export default function AddForm() {
   const router = useRouter()
 
   const id = useId(); {/* fix for react hydration errror */}
+
 
   useEffect(() => {
     const getCategories = async () => {
@@ -73,8 +75,9 @@ export default function AddForm() {
       category_id: selectedCategory.value,
       imgUrl  : tbuFile || null,
       tags: selectedTags.map(tag=>tag.label) || null, 
-      isDraft:false
+      isDraft:isDraft ? 1 : 0
     };
+    console.log(articleData)
 
     console.log(selectedTags.map(tag=>tag.label))
 
@@ -233,6 +236,15 @@ export default function AddForm() {
           <div className="form-control">
             <label htmlFor="excerpt">Excerpt:</label>
             <textarea name="excerpt" id="excerpt"  />
+          </div>
+
+          <div className="form-control">
+            <label htmlFor="draft">Publish Now:</label>
+            <select id='draft' onChange={(e) => setIsDraft(e.target.value === '1')}>
+              <option value="0">No, Publish</option>
+              <option value="1">Yes, Save as draft</option>
+            </select>
+
           </div>
 
         </div>

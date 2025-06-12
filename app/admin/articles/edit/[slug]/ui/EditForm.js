@@ -28,6 +28,8 @@ export default function EditForm({slug}) {
   const [tags, setTags] = useState([])
   const [selectedCategory, setSelectedCategory] = useState([0]) //default option uncategorized
   const [selectedTags, setSelectedTags] = useState([])
+  const [isDraft,setIsDraft] = useState()
+
 
   const [excerpt, setExcerpt] = useState('')
 
@@ -115,6 +117,7 @@ export default function EditForm({slug}) {
       category_id: selectedCategory.value,
       imgUrl  : tbuFile || null,
       tags: selectedTags.map(tag=>tag.label) || null, 
+      isDraft:isDraft ? 1 : 0
     };
 
     console.log(selectedTags.map(tag=>tag.label))
@@ -278,6 +281,15 @@ export default function EditForm({slug}) {
           <div className="form-control">
             <label htmlFor="excerpt">Excerpt:</label>
             <textarea name="excerpt" id="excerpt" value={excerpt} onChange={(e)=>setExcerpt(e.target.value)} />
+          </div>
+
+           <div className="form-control">
+            <label htmlFor="draft">Publish Now:</label>
+            <select id='draft' onChange={(e) => setIsDraft(e.target.value === '1')}>
+              <option value="0">No, Publish</option>
+              <option value="1">Yes, Save as draft</option>
+            </select>
+
           </div>
 
         </div>

@@ -25,6 +25,7 @@
     "@editorjs/simple-image": "^1.6.0",
     "@editorjs/table": "^2.4.5",
     "@editorjs/warning": "^1.4.1",
+    "@next/third-parties": "^15.3.3",
     "@vercel/analytics": "^1.5.0",
     "axios": "^1.9.0",
     "cookie": "^1.0.2",
