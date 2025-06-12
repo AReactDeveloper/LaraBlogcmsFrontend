@@ -1,4 +1,5 @@
 import { getSiteInfo } from "../lib/apiHelper";
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 
 export async function generateMetadata() {
@@ -50,6 +51,7 @@ export default async function RootLayout({ children }) {
         <Layout siteInfo={data}>
           {children}
         </Layout>
+        <GoogleAnalytics gaId={process.env.NEXT_GOOGLE_ANALYTICS} />
       </body>
     </html>
   );

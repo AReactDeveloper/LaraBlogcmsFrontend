@@ -285,7 +285,7 @@ export default function EditForm({slug}) {
 
            <div className="form-control">
             <label htmlFor="draft">Publish Now:</label>
-            <select id='draft' onChange={(e) => setIsDraft(e.target.value === '1')}>
+            <select defaultValue={article.isDraft} id='draft' onChange={(e) => setIsDraft(e.target.value === '1')}>
               <option value="0">No, Publish</option>
               <option value="1">Yes, Save as draft</option>
             </select>
