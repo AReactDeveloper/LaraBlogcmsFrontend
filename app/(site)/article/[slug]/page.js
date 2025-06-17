@@ -4,86 +4,90 @@ import dynamic from "next/dynamic";
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = await params;
+  const { slug } = params;
   const { data, error } = await getArticleBySlug(slug);
+
+  const siteUrl = process.env.NEXT_PUBLIC_FE_URL || 'https://lara-blogcms-frontend.vercel.app';
+  const canonicalUrl = `${siteUrl}/${slug}`;
 
   if (error || !data) {
     return {
-      title: 'Article not found | Blog', 
+      title: 'Article not found | Blog',
       description: 'No article found with this slug.',
+      alternates: {
+        canonical: canonicalUrl,
+      },
       openGraph: {
         title: 'Article not found',
         description: 'No article found with this slug.',
-        url: `https://lara-blogcms-frontend.vercel.app/${slug}`,
+        url: canonicalUrl,
+        siteName: 'Blog',
+        type: 'article',
       },
       twitter: {
         card: 'summary',
         title: 'Article not found',
         description: 'No article found with this slug.',
       },
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
-  if(!data.imgUrl){
-    const getImageFromArticle = () => {
-      try {
-        const parsed = JSON.parse(content);
-        const imageBlock = parsed.blocks.find(block => block.type === 'image');
-        if (imageBlock) {
-          return imageBlock.data?.file?.url || '';
-        }
-      } catch (e) {
-        console.log("Failed to extract image from content:", e);
+  // Fallback image extraction (if image not explicitly set)
+  const getImageFromArticle = () => {
+    try {
+      const parsed = JSON.parse(data.content);
+      const imageBlock = parsed.blocks.find(block => block.type === 'image');
+      if (imageBlock) {
+        return imageBlock.data?.file?.url || '';
       }
-      return '';
-    };
-    const fallBackImgUrl = getImageFromArticle()
-    const finalImgUrl = data.imgUrl || fallBackImgUrl
-    return {
-      title: `${data.title} | Blog`,
-      description: data.description || data.excerpt || 'Read this article on our blog.',
-      openGraph: {
-        title: data.title,
-        description: data.description || data.excerpt,
-        url: `${process.env.NEXT_PUBLIC_FE_URL} / ${data.slug}`,
-        images: finalImgUrl ? [
-          {
-            url: finalImgUrl,
-            alt: data.title,
-          },
-        ] : undefined,
-        type: 'article',
-      },
-      twitter: {
-        card: 'summary_large_image',
-        title: data.title,
-        description: data.description || data.excerpt,
-        images: data.imgUrl ? [data.imgUrl] : undefined,
-      },
-    };
-  }
+    } catch (e) {
+      console.warn("Failed to extract image from content:", e);
+    }
+    return '';
+  };
+
+  const fallbackImgUrl = getImageFromArticle();
+  const finalImgUrl = data.imgUrl || fallbackImgUrl || `${siteUrl}/default-og-image.jpg`;
 
   return {
     title: `${data.title} | Blog`,
     description: data.description || data.excerpt || 'Read this article on our blog.',
+    alternates: {
+      canonical: canonicalUrl,
+    },
     openGraph: {
       title: data.title,
-      description: data.description || data.excerpt,
-      url: `https://lara-blogcms-frontend.vercel.app/${data.slug}`,
-      images: data.imgUrl ? [
+      description: data.description || data.excerpt || '',
+      url: canonicalUrl,
+      siteName: 'Blog',
+      type: 'article',
+      publishedTime: data.created_at,
+      modifiedTime: data.updated_at,
+      images: [
         {
-          url: data.imgUrl,
+          url: finalImgUrl,
           alt: data.title,
         },
-      ] : undefined,
-      type: 'article',
+      ],
     },
     twitter: {
       card: 'summary_large_image',
       title: data.title,
-      description: data.description || data.excerpt,
-      images: data.imgUrl ? [data.imgUrl] : undefined,
+      description: data.description || data.excerpt || '',
+      images: [finalImgUrl],
     },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    keywords: data.tags?.join(', ') || 'blog, articles, nextjs',
+    authors: [{ name: data.author?.name || 'Admin' }],
+    category: data.category || 'General',
+    themeColor: '#ffffff', // optional: customize to match your brand
   };
 }
 

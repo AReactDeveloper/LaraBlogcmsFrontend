@@ -1,20 +1,53 @@
 import { getSiteInfo } from "../lib/apiHelper";
-import Script from "next/script"; // <-- Import next/script for Google Analytics
-import AnalyticsTracker from "./components/AnalyticsTracker/AnalyticsTracker";
+import Script from "next/script"; 
 
 export async function generateMetadata() {
   const { data } = await getSiteInfo();
 
   if (!data) {
     return {
-      title: "site name",
-      description: "site description",
+      title: "Site name",
+      description: "Default site description",
+      keywords: "nextjs, blog, react, seo, javascript",
     };
   }
 
+  const dynamicKeywords = [
+    ...(data.siteName?.split(" ") || []),
+    ...(data.siteDescription?.split(" ") || []),
+    "nextjs",
+    "react",
+    "seo",
+    "blog",
+  ]
+    .filter(Boolean)
+    .join(", ");
+
   return {
-    title: data.siteName || "Default Site Title",
+    title: `${data.siteName} | ${data.siteDescription}` || "Default Site Title",
     description: data.siteDescription || "Default site description",
+    keywords: dynamicKeywords,
+    alternates: {
+      canonical: process.env.NEXT_PUBLIC_FE_URL || "https://yourdomain.com",
+    },
+    metadataBase: new URL(process.env.NEXT_PUBLIC_FE_URL || "https://yourdomain.com"),
+    openGraph: {
+      title: `${data.siteName}`,
+      description: data.siteDescription,
+      url: process.env.NEXT_PUBLIC_FE_URL || "https://yourdomain.com",
+      siteName: data.siteName,
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.siteName,
+      description: data.siteDescription,
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+    themeColor: "#ffffff",
   };
 }
 
@@ -61,7 +94,6 @@ export default async function RootLayout({ children }) {
         <Layout siteInfo={data}>
           {children}
         </Layout>
-        <AnalyticsTracker />
       </body>
     </html>
   );
