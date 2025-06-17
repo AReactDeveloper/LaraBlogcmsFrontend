@@ -7,8 +7,6 @@ export default async function Home() {
 
   const {data} = await getArticles()
 
-  console.log(data)
-
   return (
     <>
     {/** featured article */}

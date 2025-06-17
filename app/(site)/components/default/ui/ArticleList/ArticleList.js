@@ -25,7 +25,7 @@ export default function ArticleList({Articles,ArticlePerPage , pageTitle,pageDes
       <div className={styles.ArticleList}>
         <div className={styles.ArticleListHead}>
         <div>
-          <h1>{pageTitle}</h1>
+          <h2>{pageTitle}</h2>
           <p>{pageDescription}</p>
         </div>
         <div className={styles.actions}>
