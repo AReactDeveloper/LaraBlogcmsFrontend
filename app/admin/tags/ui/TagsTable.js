@@ -6,6 +6,7 @@ import Spinner from "../../components/Utility/Spinner"
 import Modal from "@/app/(site)/components/default/ui/Modal/Modal"
 import deleteTag from "../(Actions)/deleteTag"
 import EditTag from "./EditTag"
+import { IoRefreshCircle } from "react-icons/io5";
 
 export default function TagsTable() {
   const [tags, setTags] = useState([])
@@ -17,24 +18,28 @@ export default function TagsTable() {
 
   const [currentEdit,setCurrentEdit] = useState()
 
+  const getTags = async () => {
+    try {
+      setLoading(true)
+      const res = await axiosInstance.get('/api/tags')
+      if (res) {
+        setTags(res.data)
+      }
+    } catch (e) {
+      console.log(e)
+      setTags([])
+    } finally {
+      setLoading(false)
+    }
+  }
   // Get tags
   useEffect(() => {
-    const getTags = async () => {
-      try {
-        setLoading(true)
-        const res = await axiosInstance.get('/api/tags')
-        if (res) {
-          setTags(res.data)
-        }
-      } catch (e) {
-        console.log(e)
-        setTags([])
-      } finally {
-        setLoading(false)
-      }
-    }
     getTags()
   }, [])
+
+  const handleCategoryRefetch = ()=>{
+    getTags()
+  }
 
   const handleTagDelete  = async(id) =>{
     //reset
@@ -61,6 +66,7 @@ export default function TagsTable() {
     </Modal>
     {message && <div className='success'>{message} <button className='btnLink' onClick={()=>setMessage('')}>X</button></div>}
     {error && <div className='error'>{error} <button className='btnLink' onClick={()=>setError('')}>X</button></div>}
+    <button onClick={handleCategoryRefetch} style={{border:'none'}}><IoRefreshCircle size={30} /></button>
     <div>
       <h3>Tags List :</h3>
       <table>
@@ -73,7 +79,7 @@ export default function TagsTable() {
         </thead>
         <tbody>
           {tags.length > 0 ? (
-            tags?.slice(0,intialCount).map((tag) => (
+            tags.slice(0,intialCount).map((tag) => (
               <tr key={tag.id}>
                 <td><input type="checkbox" /></td>
                 <td>

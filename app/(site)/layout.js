@@ -1,5 +1,6 @@
 import { getSiteInfo } from "../lib/apiHelper";
 import Script from "next/script"; // <-- Import next/script for Google Analytics
+import AnalyticsTracker from "./components/AnalyticsTracker/AnalyticsTracker";
 
 export async function generateMetadata() {
   const { data } = await getSiteInfo();
@@ -42,7 +43,7 @@ export default async function RootLayout({ children }) {
         {/* Google Analytics - replace G-XXXXXXXXXX with your real Measurement ID */}
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-QV9J04C4N7"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_GA_KEY}`}
         />
         <Script
           id="google-analytics"
@@ -60,6 +61,7 @@ export default async function RootLayout({ children }) {
         <Layout siteInfo={data}>
           {children}
         </Layout>
+        <AnalyticsTracker />
       </body>
     </html>
   );

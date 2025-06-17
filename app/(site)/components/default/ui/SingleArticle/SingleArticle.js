@@ -1,4 +1,4 @@
-'use client';
+
 
 import { MdOutlineDateRange, MdOutlineSystemUpdateAlt } from "react-icons/md";
 import { FaUser } from "react-icons/fa";

@@ -102,8 +102,14 @@ export default async function SinglePost({ params }) {
 
   const theme = siteInfo.siteTheme || 'default'
 
-  const SingleArticle = dynamic(() => import(`@/app/(site)/components/${theme}/ui/SingleArticle/SingleArticle`)); 
-  const CommentList = dynamic(() => import(`@/app/(site)/components/${theme}/ui/commentList/CommentList`)); 
+  const SingleArticle = dynamic(
+  () => import(`@/app/(site)/components/${theme}/ui/SingleArticle/SingleArticle`),
+  { ssr: true }
+);
+const CommentList = dynamic(
+  () => import(`@/app/(site)/components/${theme}/ui/commentList/CommentList`),
+  { ssr: true }
+);
 
 
   if(error || !data){

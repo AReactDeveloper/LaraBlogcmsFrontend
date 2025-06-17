@@ -40,6 +40,7 @@
     "sass": "^1.88.0",
     "scss": "^0.2.4",
     "swr": "^2.3.3",
+    "ua-parser-js": "^2.0.3",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

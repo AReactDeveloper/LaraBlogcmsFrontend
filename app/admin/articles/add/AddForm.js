@@ -106,6 +106,7 @@ export default function AddForm() {
       setMessage(null);
   
       const result = await postAddArticle(articleData);
+      
   
       if (result.statusCode !== 200) {
         setErrorMsg(result.message);

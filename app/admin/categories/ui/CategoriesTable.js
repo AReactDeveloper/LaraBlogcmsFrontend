@@ -6,6 +6,7 @@ import Spinner from "../../components/Utility/Spinner"
 import deleteCategory from "../(Actions)/deleteCategory"
 import Modal from "@/app/(site)/components/default/ui/Modal/Modal"
 import EditCategory from "./EditCategory"
+import { IoRefreshCircle } from "react-icons/io5";
 
 export default function CategoriesTable() {
   const [categories, setCategories] = useState([])
@@ -17,24 +18,29 @@ export default function CategoriesTable() {
 
   const [currentEdit,setCurrentEdit] = useState()
 
+  
+  const getCats = async () => {
+    try {
+      setLoading(true)
+      const res = await axiosInstance.get('/api/categories')
+      if (res) {
+        setCategories(res.data)
+      }
+    } catch (e) {
+      console.log(e)
+      setCategories([])
+    } finally {
+      setLoading(false)
+    }
+  }
   // Get categories
   useEffect(() => {
-    const getCats = async () => {
-      try {
-        setLoading(true)
-        const res = await axiosInstance.get('/api/categories')
-        if (res) {
-          setCategories(res.data)
-        }
-      } catch (e) {
-        console.log(e)
-        setCategories([])
-      } finally {
-        setLoading(false)
-      }
-    }
     getCats()
   }, [])
+
+  const handleCategoryRefetch = ()=>{
+      getCats();
+  }
 
   const handleCategoryDelete  = async(id) =>{
     setCategories(prev => prev.filter(cat => cat.id !== id)) // Remove deleted item
@@ -60,6 +66,7 @@ export default function CategoriesTable() {
     </Modal>
     {message && <div className='success'>{message} <button className='btnLink' onClick={()=>setMessage('')}>X</button></div>}
     {error && <div className='error'>{error} <button className='btnLink' onClick={()=>setError('')}>X</button></div>}
+    <button onClick={handleCategoryRefetch} style={{border:'none'}}><IoRefreshCircle size={30} /></button>
     <div>
       <h3>Categories List :</h3>
       <table>
