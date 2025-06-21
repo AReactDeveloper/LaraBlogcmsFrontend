@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const { data, error } = await getArticleBySlug(slug);
 
   const siteUrl = process.env.NEXT_PUBLIC_FE_URL || 'https://lara-blogcms-frontend.vercel.app';

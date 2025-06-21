@@ -62,6 +62,7 @@ export const getPageBySlug = unstable_cache(
 // Get a single article by slug
 export const getArticleBySlug = unstable_cache(
   async (slug) => {
+    console.log('Fetching articles from API...'); // Should log only once per revalidation
     const resObj = { data: [], error: '', loading: true };
     try {
       const response = await axiosInstance.get(`/api/articles/${slug}`);

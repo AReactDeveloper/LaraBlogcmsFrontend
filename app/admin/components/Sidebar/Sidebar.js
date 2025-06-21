@@ -8,6 +8,7 @@ import { FaTags, FaComments } from 'react-icons/fa'
 import { FaGear } from 'react-icons/fa6'
 import { LuFileSpreadsheet, LuFileSymlink } from 'react-icons/lu'
 import { IoMdAnalytics } from 'react-icons/io'
+import { FaUserAlt } from "react-icons/fa";
 
 import Link from 'next/link'
 import styles from './sidebar.module.scss'
@@ -26,6 +27,7 @@ export default function Sidebar() {
     { href: '/admin/comments', icon: <FaComments />, label: 'Comments' },
     { href: '/admin/files', icon: <LuFileSymlink />, label: 'Files' },
     { href: '/admin/settings', icon: <FaGear />, label: 'Settings' },
+    { href: '/admin/account', icon: <FaUserAlt />, label: 'Account Settings' },
   ]
 
   return (

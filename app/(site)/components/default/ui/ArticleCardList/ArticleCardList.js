@@ -16,11 +16,15 @@ export default function ArticleCardList({article , isGrid}) {
   return (
     <div className={isGrid ?  styles.ArticleGridCard : styles.ArticleCard} >
         <div className={styles.ArticleCardImg}>
-          <Image 
-            src={article.imgUrl || '/default.jpg'} 
+          <Image
+            src={article.imgUrl || '/default.jpg'}
             alt={article.title}
             width={150}
             height={150}
+            sizes="(max-width: 600px) 100px, 150px"
+            placeholder="blur"
+            blurDataURL="/default-blur.jpg"
+            loading="lazy"
           />
         </div>
         <div className={styles.ArticleCardDetails}>

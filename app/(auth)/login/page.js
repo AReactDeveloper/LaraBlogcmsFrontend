@@ -12,8 +12,7 @@ export default async function LoginPage({ searchParams }) {
   // searchParams is a plain object, no need to await
   const loginError = searchParams?.loginerror || '';
 
-  // cookies() is synchronous, no need to await
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   if (token) {
     redirect("/admin"); // Redirect immediately if token exists

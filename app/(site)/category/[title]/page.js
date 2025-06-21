@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 
 export async function generateMetadata({ params }) {
   try {
-    const { title } = params;
+    const { title } = await params;
     const { data } = await getCategoryByTitle(title);
 
     const siteUrl = process.env.NEXT_PUBLIC_FE_URL;

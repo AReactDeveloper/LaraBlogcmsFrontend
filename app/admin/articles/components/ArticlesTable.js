@@ -2,14 +2,17 @@
 
 import Link from "next/link";
 import postDeleteAction from "../(actions)/DeleteAction";
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import Spinner from "../../components/Utility/Spinner";
+import { AiFillDelete } from "react-icons/ai";
+import { RiDraftFill } from "react-icons/ri";
 
 export default function ArticlesTable() {
   const [message, setMessage] = useState(null);
   const [error, setError] = useState(null);
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedArticles,setSelectedArticles] = useState([])
 
   const fetchArticles = async () => {
     try {
@@ -35,6 +38,9 @@ export default function ArticlesTable() {
     fetchArticles();
   }, []);
 
+  useEffect(()=>{
+    console.log(selectedArticles)
+  },[selectedArticles])
 
   // Clear messages after 4s
   useEffect(() => {
@@ -49,7 +55,6 @@ export default function ArticlesTable() {
 
   // Delete handler
   const handleArticleDelete = async (id) => {
-    if (!confirm("Do you want to delete this article?")) return;
     setArticles(prev => prev.filter(article => article.id !== id));
     setMessage("Deleting...");
 
@@ -64,6 +69,15 @@ export default function ArticlesTable() {
     }
   };
 
+  //handle delete bulk
+  const handleDeleteBulk = ()=>{
+    selectedArticles.forEach(id => {
+      handleArticleDelete(id)
+    });
+    setSelectedArticles([])
+  }
+
+
   if (loading) return <Spinner />;
   if (!articles.length) return <div className="error">No articles found.</div>;
 
@@ -71,6 +85,10 @@ export default function ArticlesTable() {
     <>
       {message && <div className="success">{message}</div>}
       {error && <div className="error">{error}</div>}
+
+      <div>
+        <button onClick={handleDeleteBulk} className="btn-articleTable"><AiFillDelete /> Delete ({selectedArticles?.length})</button>
+      </div>
 
       <table>
         <thead>
@@ -97,7 +115,14 @@ export default function ArticlesTable() {
 
             return (
               <tr key={article.id}>
-                <td><input type="checkbox" /></td>
+                <td><input type="checkbox" onChange={(e)=>{
+                  let checked = e.target.checked
+                  if(checked){
+                    setSelectedArticles(prev=>[...prev,article.id])
+                  }else{
+                    setSelectedArticles(prev=>prev.filter(id=>id !== article.id))
+                  }
+                }} /></td>
                 <td>
                   <a href="#" className="post-title" onClick={e => e.preventDefault()}>
                     {article.title}

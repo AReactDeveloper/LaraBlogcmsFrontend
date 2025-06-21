@@ -18,7 +18,8 @@ export default function LoginForm({ action , loginError }) {
     const formData = new FormData(form);
 
     startTransition(() => {
-      action(formData);
+      Promise.resolve(action(formData))
+        .catch(err => setError("Something went wrong"));
     });
   }
 

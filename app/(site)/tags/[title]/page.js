@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 
 export async function generateMetadata({ params }) {
   try {
-    const { title } = params;
+    const { title } = await params;
     const { data } = await getTagByTitle(title);
 
     const siteUrl = process.env.NEXT_PUBLIC_FE_URL;
@@ -75,6 +75,7 @@ export default async function SingleCategory({ params }) {
   const { title } = await params;
 
   const { data  } = await getTagByTitle(title);
+  console.log(data)
 
   if(!data) {
     return (
@@ -85,12 +86,12 @@ export default async function SingleCategory({ params }) {
 
   return (
     <main>
-      <h2>Articles in : {title}</h2>
+      <h2>Articles in : {data?.title || title}</h2>
       <br />
       <ArticleList 
       Articles={data.articles}
       ArticlePerPage={ArticlePerPage}
-      pageTitle={'Articles In ' + title}
+      pageTitle={'Articles In ' + data?.title || title}
       pageDescription={data.description}
       />
     </main>
